@@ -48,7 +48,9 @@ public class PracticaUno {
         System.out.println("        NIF: " + c.getNifnie());
         System.out.println("  Direccion: " + c.getDireccion());
         System.out.println("*********************************");
+        
         // Apartado 2
+        
         // Apartado 3
         
         
