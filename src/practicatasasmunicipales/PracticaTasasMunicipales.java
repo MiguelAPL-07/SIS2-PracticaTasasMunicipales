@@ -15,7 +15,7 @@ public class PracticaTasasMunicipales {
     
     public static void main(String[] args) {
         
-        
+        PracticaUno p1 = new PracticaUno();
         
     }
     
