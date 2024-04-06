@@ -13,6 +13,7 @@ import modelo.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -23,8 +24,8 @@ public class PracticaUno {
     SessionFactory sf = null;
     Session session = null;
     
-    List<Contribuyente> contribuyentes;
-    List<Recibos> recibos;
+    private List<Contribuyente> contribuyentes;
+    private List<Recibos> recibos;
     
     public PracticaUno() {
         sf = HibernateUtil.getSessionFactory();
@@ -41,25 +42,53 @@ public class PracticaUno {
         String dni = scanner.nextLine();
         
         // Apartado 1
-        Contribuyente c = buscarContribuyentePorDNI(dni);
-        System.out.println("****** DATOS CONTRIBUYENTE ******");
-        System.out.println("     Nombre: " + c.getNombre());
-        System.out.println("  Apellidos: " + c.getApellido1() + " " + c.getApellido2());
-        System.out.println("        NIF: " + c.getNifnie());
-        System.out.println("  Direccion: " + c.getDireccion());
-        System.out.println("*********************************");
-        
-        // Apartado 2
-        
-        // Apartado 3
-        
-        
+        Contribuyente contribuyenteSolicitado = buscarContribuyentePorDNI(dni);
+        if(contribuyenteSolicitado.getNifnie() != null) {
+            System.out.println("****** DATOS CONTRIBUYENTE ******");
+            System.out.println("     Nombre: " + contribuyenteSolicitado.getNombre());
+            System.out.println("  Apellidos: " + contribuyenteSolicitado.getApellido1() + " " + contribuyenteSolicitado.getApellido2());
+            System.out.println("        NIF: " + contribuyenteSolicitado.getNifnie());
+            System.out.println("  Direccion: " + contribuyenteSolicitado.getDireccion());
+            System.out.println("*********************************");
+            
+            // Apartado 2
+            for(Recibos rActual : recibos) {
+                if(contribuyenteSolicitado.getIdContribuyente() == rActual.getContribuyente().getIdContribuyente()) {
+                    System.out.println("Total recibo sin actualizar: " + rActual.getTotalRecibo());
+
+                    // Actualizar atributo total recibo en la base de datos
+                    rActual.setTotalRecibo(250);
+                    Transaction tx = session.beginTransaction();
+                    session.saveOrUpdate(rActual);
+                    tx.commit();
+                    
+                    System.out.println("Total recibo actualizado a 250 euros\n");
+                }
+            }
+            
+            // Apartado 3
+            double media = calcularMediaBaseImponible();
+            System.out.println("La media de la base imponible es: " + media);
+            int rEliminados = 0;
+            for(Recibos r : recibos) {
+                if(r.getTotalBaseImponible() < media) {
+                    Transaction tx = session.beginTransaction();
+                    String hqlBorrado = "DELETE Recibos r WHERE r.numeroRecibo=:param1";
+                    session.createQuery(hqlBorrado).setParameter("param1", r.getNumeroRecibo()).executeUpdate();
+                    tx.commit();                
+                    rEliminados++;
+                }
+            }
+            System.out.println("Total de recibos eliminados: " + rEliminados);
+        } else {
+            System.out.println("No se ha encontrado un contribuyente con ese NIF en el sistema");
+        }
+
         sf.close();
         session.close();
     }
 
-    
-    public Contribuyente buscarContribuyentePorDNI(String dni) {
+    private Contribuyente buscarContribuyentePorDNI(String dni) {
         Contribuyente contribuyente = new Contribuyente();
         for(Contribuyente cActual : contribuyentes) {
             if(cActual.getNifnie().equalsIgnoreCase(dni.trim())) {
@@ -69,8 +98,16 @@ public class PracticaUno {
         return contribuyente;
     }
 
+    private Double calcularMediaBaseImponible() {
+        double media = 0;       
+        for(Recibos rActual : recibos) {
+            media += rActual.getTotalBaseImponible();
+        }
+        media = media/recibos.size();
+        return media;
+    }
     
-    public List<Contribuyente> obtenerContribuyentesBD() {
+    private List<Contribuyente> obtenerContribuyentesBD() {
         List<Contribuyente> resultado = null;
         String consulta = "FROM Contribuyente c";
         try {
@@ -82,7 +119,7 @@ public class PracticaUno {
         return resultado;
     }
     
-    public List<Recibos> obtenerRecibosBD() {
+    private List<Recibos> obtenerRecibosBD() {
         List<Recibos> resultado = null;
         String consulta = "FROM Recibos c";
         try {
