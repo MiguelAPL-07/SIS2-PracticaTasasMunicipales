@@ -73,16 +73,20 @@ public class ExcelManager {
         hojaOrdenanzas = workbook.getSheetAt(Constantes.HOJA_ORDENANZAS); 
     }
     
-    private void agregarCambiosArchivo() {
+    private boolean agregarCambiosArchivo() {
+        boolean result = false;
         // Escribo los cambios realizados en el libro
         try {
             fileOutputStream = new FileOutputStream(fileOutput);
             workbook.write(fileOutputStream);
             fileOutputStream.close();
             System.out.println("Libro guardado correctamente");
+            result = true;
         } catch (IOException e) {
             System.out.println(e.toString());
+            System.out.println("No se ha podido actualizar o guardar el libro correctamente");
         } 
+        return result;
     }
     
     public HashMap obtenerContribuyentes() {
@@ -183,7 +187,27 @@ public class ExcelManager {
         return ordenanzas;
     }
     
-        /**
+    /**
+     * Modifica el DNI en la hoja de Excel
+     * @param documento, DNI corregido que se actualiza en el Excel
+     * @param fila en el que ha de cambiar el DNI
+     * @return true si ha sido modificado, false si no se ha podidod modificar
+     */
+    public boolean modificarDniNieHoja(String documento, int fila) {
+        boolean result = false;        
+        // Realizo los cambios
+        XSSFRow hssFRow = (XSSFRow) hojaContribuyentes.getRow(fila);
+        if(hssFRow.getCell(3) != null) {
+            if(!comprobarCadenaSoloEspacios(hssFRow.getCell(3).toString())) {
+                hssFRow.getCell(3).setCellValue(documento);
+            }
+        }            
+        // Escribo los cambios realizados en el libro
+        result = agregarCambiosArchivo();
+        return result;
+    }
+    
+    /**
      * Método que comprueba una cadena y determina si solo hay espacios o 
      * hay contenido diferente a espacios en blanco
      * @param cadena
