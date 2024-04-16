@@ -23,4 +23,7 @@ public final class Constantes {
     // Hoja que corresponde a las ordenanzas en el Excel
     public static final int HOJA_ORDENANZAS = 1;
     
+    // Ruta donde se va a guardar el archivo a escribir
+    public static final String RUTA_ARCHIVO_ESCRIBIR_XML = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\ErroresNifNie.xml";
+    
 }

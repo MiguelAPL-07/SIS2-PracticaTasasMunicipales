@@ -9,8 +9,11 @@ package Practicas;
 import funcionesAuxiliares.Constantes;
 import funcionesAuxiliares.FuncionDNI;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import javax.xml.transform.TransformerException;
 import manager.ExcelManager;
+import manager.XmlManager;
 import modeloExcel.ContribuyenteExcel;
 import modeloExcel.OrdenanzaExcel;
 
@@ -43,6 +46,7 @@ public class PracticaDos {
         em.modificarDniNieHoja("prueba", 2);
         FuncionDNI funcionDNI = new FuncionDNI();
         
+        XmlManager xmlManager = new XmlManager();
 
         for(int i = 1; i <= contribuyentes.size(); i++) {
             // Comprobar documento
@@ -58,7 +62,7 @@ public class PracticaDos {
                         }
                     } else {
                         // Se genera un nodo contribuyente. Subsanable pero duplicado
-                        // XML generar nodo documento
+                        xmlManager.agregarNodoDocumentoErrores(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
                         // Actualiza el excel. Subsanable
                         if(em.modificarDniNieHoja(docActualizado, i)) {
                             System.out.println("DNI " + docActualizado + " modificado correctamente");
@@ -66,14 +70,12 @@ public class PracticaDos {
                     }
                 } else if(r == 2) {
                     // Se genera un nodo trabajador
-                    // XML generar nodo documento
+                    xmlManager.agregarNodoDocumentoErrores(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
                 }
             }
         }
         // Se genera el xml
-        // GENERAR XML
-       
-        
+        xmlManager.generarDocumentoXmlErrores(); 
     }
 
     
