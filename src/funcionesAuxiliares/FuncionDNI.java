@@ -27,6 +27,8 @@ public class FuncionDNI {
      * Devuelve 0 si el documento es correcto
      * Devuelve 1 si se puede arreglar y corregir en el excel
      * Devuelve 2 si hay que meterlo en el xml de errores
+     * Devuelve 3 si es subsanable pero esta duplicado. Se modifica el Excel y 
+     * se agrega al xml de errores
      */
     public int validadorNIF_NIE(String documento) {
         int resto = -1;
@@ -41,20 +43,9 @@ public class FuncionDNI {
                 int digito1 = Integer.parseInt(String.valueOf(documento.charAt(0)));
                 caracteres = documento.substring(0, 8);
             } catch(NumberFormatException e) {
-                // NIE = una letra 7 numeros y una letra al final
-                switch (documento.toUpperCase().charAt(0)) {
-                    case 'X':
-                        caracteres = "0".concat(documento.substring(1, 8));
-                        break;
-                    case 'Y':
-                        caracteres = "1".concat(documento.substring(1, 8));
-                        break;
-                    case 'Z':
-                        caracteres = "2".concat(documento.substring(1, 8));
-                        break;
-                    default:
-                        descartado = true;
-                        break;
+                caracteres = cambiarFormatoNIE(documento);
+                if(caracteres.equals("")) {
+                    descartado = true;
                 }
             }
             if(!descartado) {
@@ -75,20 +66,24 @@ public class FuncionDNI {
                                 }
                             } else {
                                  // Es subsanable 
-                                 resultado = 1;
                                  String dniCorregido = corregirDocumento(documento);
                                  // Si corregido esta duplicado no se añade
                                  if(!comprobarDocumentoDuplicado(dniCorregido)){
                                      documentos.add(dniCorregido);
+                                     resultado = 1;
+                                 } else {
+                                     resultado = 3;
                                  }
                             }
                         } else {
                             // Es subsanable 
-                            resultado = 1;
                             String dniCorregido = corregirDocumento(documento);
                             // Si corregido esta duplicado no se añade
                             if(!comprobarDocumentoDuplicado(dniCorregido)){
                                 documentos.add(dniCorregido);
+                                resultado = 1;
+                            } else {
+                                resultado = 3;
                             }
                         } 
                     }
@@ -130,13 +125,22 @@ public class FuncionDNI {
         }
         return rep;
     }
-    
+
     /**
      * Corrige o añade la letra del DNI que le corresponde
      * @param documento a corregir
      * @return devuelve el DNI corregido
      */
     public String corregirDocumento(String documento) {
+        boolean tipoNie = false;
+        // Verifica si es NIE o NIF
+        try {
+            // NIF = 8 numeros y una letra al final
+            int digito1 = Integer.parseInt(String.valueOf(documento.charAt(0)));
+        } catch(NumberFormatException e) {
+            documento = cambiarFormatoNIE(documento);
+            tipoNie = true;
+        }
         String doc = "";
         int resto = Integer.parseInt(documento.substring(0, 8)) % 23;
         if(documento.replace(" ", "").length() == 9) {
@@ -146,7 +150,62 @@ public class FuncionDNI {
             // Añadir la letra
             doc = documento.concat(String.valueOf(calculoDigitoControl(Integer.parseInt(documento) % 23)));
         }
+        if(tipoNie) {
+            doc = deshacerFormatoNumericoNie(doc);
+        }
         return doc;
+    }
+    
+    /**
+     * Cambia la letra inicial por el numero correspondiente para que quede
+     * con el mismo formato que el DNI
+     * @param documento a cambiar de formato
+     * @return devuelve el documento con formato DNI
+     */
+    private String cambiarFormatoNIE(String documento) {
+        String caracteres = "";
+        // NIE = una letra 7 numeros y una letra al final
+        switch (documento.toUpperCase().charAt(0)) {
+            case 'X':
+                caracteres = "0".concat(documento.substring(1, 8));
+                break;
+            case 'Y':
+                caracteres = "1".concat(documento.substring(1, 8));
+                break;
+            case 'Z':
+                caracteres = "2".concat(documento.substring(1, 8));
+                break;
+            default:
+                caracteres = "";
+                break;
+        }
+        return caracteres;
+    }
+    
+    /**
+     * Cambia el numero inicial por la letra correspondiente para que
+     * tenga el formato de un NIE
+     * @param documento a cambiar de formato
+     * @return devuelve el documento con formato NIE
+     */
+    private String deshacerFormatoNumericoNie(String documento) {
+        String caracteres = "";
+        // NIE = una letra 7 numeros y una letra al final
+        switch (documento.toUpperCase().charAt(0)) {
+            case '0':
+                caracteres = "X".concat(documento.substring(1, 9));
+                break;
+            case '1':
+                caracteres = "Y".concat(documento.substring(1, 9));
+                break;
+            case '2':
+                caracteres = "Z".concat(documento.substring(1, 9));
+                break;
+            default:
+                caracteres = "";
+                break;
+        }
+        return caracteres;
     }
     
 }

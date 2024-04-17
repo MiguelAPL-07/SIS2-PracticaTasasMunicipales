@@ -9,9 +9,7 @@ package Practicas;
 import funcionesAuxiliares.Constantes;
 import funcionesAuxiliares.FuncionDNI;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import javax.xml.transform.TransformerException;
 import manager.ExcelManager;
 import manager.XmlManager;
 import modeloExcel.ContribuyenteExcel;
@@ -43,7 +41,6 @@ public class PracticaDos {
     }
     
     public void ejecucion() {
-        em.modificarDniNieHoja("prueba", 2);
         FuncionDNI funcionDNI = new FuncionDNI();
         
         XmlManager xmlManager = new XmlManager();
@@ -55,22 +52,21 @@ public class PracticaDos {
                 int r = funcionDNI.validadorNIF_NIE(c.getNifnie());
                 if(r == 1) {
                     String docActualizado = funcionDNI.corregirDocumento(c.getNifnie());
-                    if(!funcionDNI.comprobarDocumentoDuplicado(docActualizado)) {
-                        // Actualiza el excel. Subsanable
-                        if(em.modificarDniNieHoja(docActualizado, i)) {
-                            System.out.println("DNI " + docActualizado + " modificado correctamente");
-                        }
-                    } else {
-                        // Se genera un nodo contribuyente. Subsanable pero duplicado
-                        xmlManager.agregarNodoDocumentoErrores(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
-                        // Actualiza el excel. Subsanable
-                        if(em.modificarDniNieHoja(docActualizado, i)) {
-                            System.out.println("DNI " + docActualizado + " modificado correctamente");
-                        }
+                    // Actualiza el excel. Subsanable
+                    if(em.modificarDniNieHoja(docActualizado, i)) {
+                        System.out.println("DNI " + docActualizado + " modificado correctamente");
                     }
                 } else if(r == 2) {
                     // Se genera un nodo trabajador
                     xmlManager.agregarNodoDocumentoErrores(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
+                } else if(r == 3) {
+                    // Se genera un nodo trabajador
+                    xmlManager.agregarNodoDocumentoErrores(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
+                    // Actualiza el excel. Subsanable pero duplicado
+                    String docActualizado = funcionDNI.corregirDocumento(c.getNifnie());
+                    if(em.modificarDniNieHoja(docActualizado, i)) {
+                        System.out.println("DNI " + docActualizado + " modificado correctamente");
+                    }
                 }
             }
         }
