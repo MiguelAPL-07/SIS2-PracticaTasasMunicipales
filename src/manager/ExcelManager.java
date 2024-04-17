@@ -38,6 +38,12 @@ public class ExcelManager {
     // Referencia a la hoja 2 del Excel
     private XSSFSheet hojaOrdenanzas;
     
+    // Ultima fila con datos de contribuyentes
+    int ultimaFilaContribuyentes;
+    
+    // Ultima fila con datos de ordenanzas
+    int ultimaFilaOrdenanzas;
+    
     
     
     
@@ -136,6 +142,8 @@ public class ExcelManager {
                     ContribuyenteExcel contribuyenteActual = new ContribuyenteExcel(nombre, apellido1, apellido2, nifnie, direccion, numero, paisCCC, ccc, iban, email, exencion, bonificacion, lecturaAnterior, lecturaActual, fechaAlta, fechaBaja, conceptosACobrar);
                     // Se agrega al HasMap
                     contribuyentes.put(Integer.toString(i), contribuyenteActual);
+                    // Se actualiza la ultima fila
+                    setUltimaFilaContribuyentes(i);
                 }
             }
         }
@@ -181,6 +189,8 @@ public class ExcelManager {
                     OrdenanzaExcel ordenanzaActual = new OrdenanzaExcel(pueblo, tipoCalculo, idOrdenanza, concepto, subconcepto, descripcion, acumulable, precioFijo, m3incluidos, preciom3, porcentajeSobreOtroConcepto, sobreQueConcepto, iva);
                     // Se agrega al HasMap
                     ordenanzas.put(Integer.toString(i), ordenanzaActual);
+                    // Se actualiza la ultima fila
+                    setUltimaFilaOrdenanzas(i);
                 }
             }
         }
@@ -227,4 +237,22 @@ public class ExcelManager {
         }
         return soloEspaciosBlanco;
     }
+
+    public int getUltimaFilaContribuyentes() {
+        return ultimaFilaContribuyentes;
+    }
+
+    public void setUltimaFilaContribuyentes(int ultimaFilaContribuyentes) {
+        this.ultimaFilaContribuyentes = ultimaFilaContribuyentes;
+    }
+
+    public int getUltimaFilaOrdenanzas() {
+        return ultimaFilaOrdenanzas;
+    }
+
+    public void setUltimaFilaOrdenanzas(int ultimaFilaOrdenanzas) {
+        this.ultimaFilaOrdenanzas = ultimaFilaOrdenanzas;
+    }
+    
+    
 }

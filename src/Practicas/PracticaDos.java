@@ -45,7 +45,7 @@ public class PracticaDos {
         
         XmlManager xmlManager = new XmlManager();
 
-        for(int i = 1; i <= contribuyentes.size(); i++) {
+        for(int i = 1; i <= em.getUltimaFilaContribuyentes(); i++) {
             // Comprobar documento
             if(contribuyentes.containsKey(String.valueOf(i))) {
                 ContribuyenteExcel c = (ContribuyenteExcel) contribuyentes.get(String.valueOf(i));
