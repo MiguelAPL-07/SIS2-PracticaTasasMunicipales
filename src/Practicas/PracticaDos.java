@@ -41,8 +41,12 @@ public class PracticaDos {
     }
     
     public void ejecucion() {
-        FuncionDNI funcionDNI = new FuncionDNI();
+        primeraEjecucionDNI();
         
+    }
+
+    private void primeraEjecucionDNI() {
+        FuncionDNI funcionDNI = new FuncionDNI();
         XmlManager xmlManager = new XmlManager();
 
         for(int i = 1; i <= em.getUltimaFilaContribuyentes(); i++) {
@@ -60,20 +64,25 @@ public class PracticaDos {
                     // Se genera un nodo trabajador
                     xmlManager.agregarNodoDocumentoErrores(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
                 } else if(r == 3) {
-                    // Se genera un nodo trabajador
-                    xmlManager.agregarNodoDocumentoErrores(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
                     // Actualiza el excel. Subsanable pero duplicado
                     String docActualizado = funcionDNI.corregirDocumento(c.getNifnie());
                     if(em.modificarDniNieHoja(docActualizado, i)) {
                         System.out.println("DNI " + docActualizado + " modificado correctamente");
                     }
+                    // Se genera un nodo trabajador
+                    xmlManager.agregarNodoDocumentoErrores(i, docActualizado, c.getNombre(), c.getApellido1(), c.getApellido2());
                 }
             }
         }
         // Se genera el xml
         xmlManager.generarDocumentoXmlErrores(); 
     }
-
     
+    private void segundaEjecucionCCC() {
+        
+    }
     
+    private void terceraEjecucionIbanEmail() {
+        
+    }
 }
