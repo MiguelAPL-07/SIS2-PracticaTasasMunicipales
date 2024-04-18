@@ -5,10 +5,59 @@
  */
 package funcionesAuxiliares;
 
+import java.math.BigInteger;
+
 /**
  *
  * @author Miguel Ángel
  */
 public class FuncionIBAN {
+    
+    // Solo de CCC correctos
+    public String calculoIBAN(String pais, String ccc) {
+        String iban = "";
+        if(ccc.length() == 20 && pais.length() == 2) {
+            // Primer paso. Se traslada las cuatro primeras posiciones al final
+            iban = ccc + pais + "00";
+            
+            // Segundo paso. Transformar las letras de pais por numeros de la tabla
+            String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            
+            // Se obtienen los valores asociados a cada letra de la tabla
+            String valor1 = String.valueOf(letras.indexOf(String.valueOf(pais.charAt(0))) + 10);
+            String valor2 = String.valueOf(letras.indexOf(String.valueOf(pais.charAt(1))) + 10);
+            iban = ccc + valor1 + valor2 + "00";
+            
+            // Tercer paso. Aplicar modelo 97-10
+            BigInteger ibanBI = new BigInteger(iban);
+            // Se halla el siguiente calculo = 98-resto. Resto = dividir entre 97 y coger el resto
+            // En BigInteger, la funcion remainder halla el resto de dos numeros
+            int calculo = 98 - ibanBI.remainder(BigInteger.valueOf(97)).intValue();
+            // Se comprueba si solo tiene un digito o dos para ajustarlo
+            String digitosControl = "";
+            if(calculo < 10) {
+                digitosControl = "0" + String.valueOf(calculo);
+            } else {
+                digitosControl = String.valueOf(calculo);
+            }
+            if(verificarIBAN(ccc, valor1, valor2, digitosControl)) {
+                iban = pais + digitosControl + ccc;
+            } else {
+                iban = "";
+            }
+        }
+        return iban;
+    }
+    
+    public boolean verificarIBAN(String ccc, String v1, String v2, String digitoControl) {
+        boolean r = false;
+        String iban = ccc + v1 + v2 + digitoControl; 
+        BigInteger bi = new BigInteger(iban);
+        int calculo = bi.remainder(BigInteger.valueOf(97)).intValue();
+        if(calculo == 1) {
+            r = true;
+        }
+        return r;
+    }
     
 }
