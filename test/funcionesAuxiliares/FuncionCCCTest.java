@@ -38,6 +38,7 @@ public class FuncionCCCTest {
         assertEquals(false, fCCC.verificarCCC("1234567891234567891A"));
         // CCC correcto
         assertEquals(true, fCCC.verificarCCC("11112223504444444444"));
+        assertEquals(true, fCCC.verificarCCC("14904008027388395614"));
         
     }
     

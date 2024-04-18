@@ -22,7 +22,7 @@ public class FuncionDNITest {
     @Test
     public void test_validarDNI_casosSimples() {
         FuncionDNI fDNI = new FuncionDNI();
-        // DNI vario
+        // DNI vacio
         assertEquals(2, fDNI.validadorNIF_NIE(""));
         // DNI correcto
         assertEquals(0, fDNI.validadorNIF_NIE("12345678Z"));

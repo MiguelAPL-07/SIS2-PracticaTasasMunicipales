@@ -5,17 +5,21 @@
  */
 package funcionesAuxiliares;
 
-import java.math.BigInteger;
-
 /**
  *
  * @author Miguel Ángel
  */
 public class FuncionCCC {
     
+    FuncionesGenerales fg;
+    
+    public FuncionCCC() {
+        fg = new FuncionesGenerales();
+    }
+    
     public boolean verificarCCC(String ccc) {
         boolean correcto = false;
-        if(ccc.length() == 20 && comprobarSoloNumerosCCC(ccc)) {
+        if(ccc.length() == 20 && fg.comprobarCadenaSoloNumeros(ccc)) {
             String codigoEntidad = ccc.substring(0, 4);
             String codigoOficina = ccc.substring(4, 8);
             String primerDigitoControl = ccc.substring(8, 9);
@@ -48,7 +52,7 @@ public class FuncionCCC {
         if(verificarCCC(ccc)) {
             cccCorrecto = ccc;
         } else {
-            if(ccc.length() == 20 && comprobarSoloNumerosCCC(ccc)) {
+            if(ccc.length() == 20 && fg.comprobarCadenaSoloNumeros(ccc)) {
                 String codigoEntidad = ccc.substring(0, 4);
                 String codigoOficina = ccc.substring(4, 8);
                 String codigoCuenta = ccc.substring(10, 20);
@@ -73,17 +77,5 @@ public class FuncionCCC {
             digitoControl = 1;
         }
         return digitoControl;
-    }
-    
-    private boolean comprobarSoloNumerosCCC(String ccc) {
-        boolean correcto = true;
-        // Comprobamos si solo hay numeros
-        try {
-            BigInteger bi = new BigInteger(ccc);
-        } catch(NumberFormatException e) {
-            correcto = false;
-            System.out.println("CCC contiene letras. No es correcto ni se puede corregir");
-        }
-        return correcto;
     }
 }
