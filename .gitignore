@@ -1,3 +1,4 @@
 # Project exclude paths
 /nbproject/
 /build/
+/dist/
