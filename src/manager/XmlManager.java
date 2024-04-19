@@ -27,18 +27,23 @@ import org.w3c.dom.Text;
 
 /**
  *
- * @author PC
+ * @author Miguel Ángel
  */
 public class XmlManager {
     
-    private Document documentoErrores;
+    // Documento para ErroresNifNie.xml
+    private Document documentoErroresNifNie;
+    
+    // Documento para ErroresCCC.xml
+    private Document documentoErroresCCC;
     
     public XmlManager() {
-        iniciarlizarDocumentoErrores();
+        iniciarlizarDocumentoErroresNifNie();
+        iniciarlizarDocumentoErroresCCC();
     }
     
     // cambiar boolean
-    private void iniciarlizarDocumentoErrores() {
+    private void iniciarlizarDocumentoErroresNifNie() {
         try {
             // Creo una instancia de DocumentBuilderFactory
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -48,35 +53,35 @@ public class XmlManager {
             DOMImplementation implementation = builder.getDOMImplementation();
 
             // Creo un documento con un elemento raiz
-            documentoErrores = implementation.createDocument(null, "Contribuyentes", null);
-            documentoErrores.setXmlVersion("1.0");
+            documentoErroresNifNie = implementation.createDocument(null, "Contribuyentes", null);
+            documentoErroresNifNie.setXmlVersion("1.0");
         } catch (ParserConfigurationException e) {
             System.out.println("Error al iniciar el documento errores.xml");
             System.out.println(e.toString());
         }
     }
     
-    public void agregarNodoDocumentoErrores(int id, String nifnie, String nombre,
+    public void agregarNodoDocumentoErroresNifNie(int id, String nifnie, String nombre,
             String apellido1, String apellido2) {
         // Creo el elemento principal
-        Element contribuyente = documentoErrores.createElement("Contribuyente");
+        Element contribuyente = documentoErroresNifNie.createElement("Contribuyente");
         contribuyente.setAttribute("id", String.valueOf(id+1));
         
         // Creo los subelementos
-        Element nif_nie = documentoErrores.createElement("NIF_NIE");
-        Text textoNifnie = documentoErrores.createTextNode(nifnie);
+        Element nif_nie = documentoErroresNifNie.createElement("NIF_NIE");
+        Text textoNifnie = documentoErroresNifNie.createTextNode(nifnie);
         nif_nie.appendChild(textoNifnie);
         
-        Element elementNombre = documentoErrores.createElement("Nombre");
-        Text textoNombre = documentoErrores.createTextNode(nombre);
+        Element elementNombre = documentoErroresNifNie.createElement("Nombre");
+        Text textoNombre = documentoErroresNifNie.createTextNode(nombre);
         elementNombre.appendChild(textoNombre);
         
-        Element elementApellido1 = documentoErrores.createElement("PrimerApellido");
-        Text textoApellido1 = documentoErrores.createTextNode(apellido1);
+        Element elementApellido1 = documentoErroresNifNie.createElement("PrimerApellido");
+        Text textoApellido1 = documentoErroresNifNie.createTextNode(apellido1);
         elementApellido1.appendChild(textoApellido1);
         
-        Element elementApellido2 = documentoErrores.createElement("SegundoApellido");
-        Text textoApellido2 = documentoErrores.createTextNode(apellido2);
+        Element elementApellido2 = documentoErroresNifNie.createElement("SegundoApellido");
+        Text textoApellido2 = documentoErroresNifNie.createTextNode(apellido2);
         elementApellido2.appendChild(textoApellido2);
         
         // Añado los subelementos
@@ -86,16 +91,16 @@ public class XmlManager {
         contribuyente.appendChild(elementApellido2);
         
         // Añado al root el elemento contribuyentes
-        documentoErrores.getDocumentElement().appendChild(contribuyente);
+        documentoErroresNifNie.getDocumentElement().appendChild(contribuyente);
     }
     
     //Agregar boolean
-    public void generarDocumentoXmlErrores() {
+    public void generarDocumentoXmlErroresNifNie() {
         try {
             // Asocio el source con el Document
-            Source source = new DOMSource(documentoErrores);
+            Source source = new DOMSource(documentoErroresNifNie);
 
-            File f = new File(Constantes.RUTA_ARCHIVO_ESCRIBIR_XML);
+            File f = new File(Constantes.RUTA_ARCHIVO_ESCRIBIR_XML_NIF_NIE);
             FileWriter fw = new FileWriter(f);
             PrintWriter pw = new PrintWriter(fw);
 
@@ -111,4 +116,85 @@ public class XmlManager {
         
     }
     
+    // cambiar boolean
+    private void iniciarlizarDocumentoErroresCCC() {
+        try {
+            // Creo una instancia de DocumentBuilderFactory
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            // Creo un documentBuilder
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            // Creo un DOMImplementation
+            DOMImplementation implementation = builder.getDOMImplementation();
+
+            // Creo un documento con un elemento raiz
+            documentoErroresCCC = implementation.createDocument(null, "Cuentas", null);
+            documentoErroresCCC.setXmlVersion("1.0");
+        } catch (ParserConfigurationException e) {
+            System.out.println("Error al iniciar el documento errores.xml");
+            System.out.println(e.toString());
+        }
+    }
+    
+    public void agregarNodoDocumentoErroresCCC(int id, String nombre, String apellidos,
+            String nifnie, String cccErroneo, String ibanCorrecto) {
+        
+// Creo el elemento principal
+        Element contribuyente = documentoErroresCCC.createElement("Cuenta");
+        contribuyente.setAttribute("id", String.valueOf(id+1));
+        
+        // Creo los subelementos
+        Element elementNombre = documentoErroresCCC.createElement("Nombre");
+        Text textoNombre = documentoErroresCCC.createTextNode(nombre);
+        elementNombre.appendChild(textoNombre);
+        
+        Element elementApellidos = documentoErroresCCC.createElement("Apellidos");
+        Text textoApellidos = documentoErroresCCC.createTextNode(apellidos);
+        elementApellidos.appendChild(textoApellidos);
+        
+        Element nif_nie = documentoErroresCCC.createElement("NIFNIE");
+        Text textoNifnie = documentoErroresCCC.createTextNode(nifnie);
+        nif_nie.appendChild(textoNifnie);
+        
+        
+        
+        Element elementCCCErroneo = documentoErroresCCC.createElement("CCCErroneo");
+        Text textoCCCErroneo = documentoErroresCCC.createTextNode(cccErroneo);
+        elementCCCErroneo.appendChild(textoCCCErroneo);
+        
+        Element elementIBANCorrecto = documentoErroresCCC.createElement("IBANCorrecto");
+        Text textoIBANCorrecto = documentoErroresCCC.createTextNode(ibanCorrecto);
+        elementIBANCorrecto.appendChild(textoIBANCorrecto);
+        
+        // Añado los subelementos
+        contribuyente.appendChild(elementNombre);
+        contribuyente.appendChild(elementApellidos);
+        contribuyente.appendChild(nif_nie);
+        contribuyente.appendChild(elementCCCErroneo);
+        contribuyente.appendChild(elementIBANCorrecto);
+        
+        // Añado al root el elemento contribuyentes
+        documentoErroresCCC.getDocumentElement().appendChild(contribuyente);
+    }
+    
+    //Agregar boolean
+    public void generarDocumentoXmlErroresCCC() {
+        try {
+            // Asocio el source con el Document
+            Source source = new DOMSource(documentoErroresCCC);
+
+            File f = new File(Constantes.RUTA_ARCHIVO_ESCRIBIR_XML_CCC);
+            FileWriter fw = new FileWriter(f);
+            PrintWriter pw = new PrintWriter(fw);
+
+            // Creo el Result, indicado que fichero se va a crear
+            Result result = new StreamResult(pw);
+
+            // Creo un transformer, se crea el fichero XML
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(source, result);
+        } catch (IOException | TransformerException e) {
+            System.out.println(e.toString());
+        }
+        
+    }
 }

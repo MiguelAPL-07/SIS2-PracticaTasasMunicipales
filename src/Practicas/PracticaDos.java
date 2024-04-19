@@ -17,7 +17,7 @@ import modeloExcel.OrdenanzaExcel;
 
 /**
  *
- * @author PC
+ * @author Miguel Ángel
  */
 public class PracticaDos {
     
@@ -62,7 +62,7 @@ public class PracticaDos {
                     }
                 } else if(r == 2) {
                     // Se genera un nodo trabajador
-                    xmlManager.agregarNodoDocumentoErrores(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
+                    xmlManager.agregarNodoDocumentoErroresNifNie(i, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
                 } else if(r == 3) {
                     // Actualiza el excel. Subsanable pero duplicado
                     String docActualizado = funcionDNI.corregirDocumento(c.getNifnie());
@@ -70,12 +70,12 @@ public class PracticaDos {
                         System.out.println("DNI " + docActualizado + " modificado correctamente");
                     }
                     // Se genera un nodo trabajador
-                    xmlManager.agregarNodoDocumentoErrores(i, docActualizado, c.getNombre(), c.getApellido1(), c.getApellido2());
+                    xmlManager.agregarNodoDocumentoErroresNifNie(i, docActualizado, c.getNombre(), c.getApellido1(), c.getApellido2());
                 }
             }
         }
         // Se genera el xml
-        xmlManager.generarDocumentoXmlErrores(); 
+        xmlManager.generarDocumentoXmlErroresNifNie();
     }
     
     private void segundaEjecucionCCC() {
