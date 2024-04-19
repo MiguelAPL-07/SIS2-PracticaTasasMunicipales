@@ -35,4 +35,25 @@ public class FuncionesGenerales {
         return result;
     }
     
+    /**
+     * Método que comprueba una cadena y determina si solo hay espacios o 
+     * hay contenido diferente a espacios en blanco
+     * @param cadena
+     * @return true si solo contiene espacios en blanco
+     * false si no solo son espacios en blanco
+     */
+    public boolean comprobarCadenaSoloEspacios(String cadena) {
+        boolean soloEspaciosBlanco = false;
+        int contEspacios = 0;
+        for(int i = 0; i < cadena.length(); i++) {
+            if(cadena.charAt(i) == ' ') {
+                contEspacios++;
+            }
+        }
+        if(contEspacios == cadena.length()) {
+            soloEspaciosBlanco = true;
+        }
+        return soloEspaciosBlanco;
+    }
+    
 }

@@ -6,6 +6,7 @@
 package manager;
 
 import funcionesAuxiliares.Constantes;
+import funcionesAuxiliares.FuncionesGenerales;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,12 +40,13 @@ public class ExcelManager {
     private XSSFSheet hojaOrdenanzas;
     
     // Ultima fila con datos de contribuyentes
-    int ultimaFilaContribuyentes;
+    private int ultimaFilaContribuyentes;
     
     // Ultima fila con datos de ordenanzas
-    int ultimaFilaOrdenanzas;
+    private int ultimaFilaOrdenanzas;
     
-    
+    // Funciones generales
+    private FuncionesGenerales fg;
     
     
     /**
@@ -52,6 +54,7 @@ public class ExcelManager {
      * @param fileName, fichero a leer
      */
     public ExcelManager(File fileName) {
+        fg = new FuncionesGenerales();
         // Ruta de salida
         fileOutput = new File(Constantes.RUTA_ARCHIVO_ESCRIBIR);
         
@@ -101,42 +104,42 @@ public class ExcelManager {
             XSSFRow fila = hojaContribuyentes.getRow(i);
             if(fila != null) {
                 // No puede no tener nombre
-                if(fila.getCell(0) != null && !comprobarCadenaSoloEspacios(fila.getCell(0).toString())) {
+                if(fila.getCell(0) != null && !fg.comprobarCadenaSoloEspacios(fila.getCell(0).toString())) {
                     // Datos por columnas
                     String nombre = (fila.getCell(0) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(0).toString())) ? fila.getCell(0).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(0).toString())) ? fila.getCell(0).toString() : "";
                     String apellido1 = (fila.getCell(1) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(1).toString())) ? fila.getCell(1).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(1).toString())) ? fila.getCell(1).toString() : "";
                     String apellido2 = (fila.getCell(2) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(2).toString())) ? fila.getCell(2).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(2).toString())) ? fila.getCell(2).toString() : "";
                     String nifnie = (fila.getCell(3) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(3).toString())) ? fila.getCell(3).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(3).toString())) ? fila.getCell(3).toString() : "";
                     String direccion = (fila.getCell(4) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(4).toString())) ? fila.getCell(4).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(4).toString())) ? fila.getCell(4).toString() : "";
                     String numero = (fila.getCell(5) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(5).toString())) ? fila.getCell(5).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(5).toString())) ? fila.getCell(5).toString() : "";
                     String paisCCC = (fila.getCell(6) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(6).toString())) ? fila.getCell(6).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(6).toString())) ? fila.getCell(6).toString() : "";
                     String ccc = (fila.getCell(7) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(7).toString())) ? fila.getCell(7).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(7).toString())) ? fila.getCell(7).toString() : "";
                     String iban = (fila.getCell(8) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(8).toString())) ? fila.getCell(8).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(8).toString())) ? fila.getCell(8).toString() : "";
                     String email = (fila.getCell(9) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(9).toString())) ? fila.getCell(9).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(9).toString())) ? fila.getCell(9).toString() : "";
                     String exencion = (fila.getCell(10) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(10).toString())) ? fila.getCell(10).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(10).toString())) ? fila.getCell(10).toString() : "";
                     String bonificacion = (fila.getCell(11) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(11).toString())) ? fila.getCell(11).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(11).toString())) ? fila.getCell(11).toString() : "";
                     String lecturaAnterior = (fila.getCell(12) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(12).toString())) ? fila.getCell(12).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(12).toString())) ? fila.getCell(12).toString() : "";
                     String lecturaActual = (fila.getCell(13) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(13).toString())) ? fila.getCell(13).toString() : "";      
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(13).toString())) ? fila.getCell(13).toString() : "";      
                     String fechaAlta = (fila.getCell(14) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(14).toString())) ? fila.getCell(14).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(14).toString())) ? fila.getCell(14).toString() : "";
                     String fechaBaja = (fila.getCell(15) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(15).toString())) ? fila.getCell(15).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(15).toString())) ? fila.getCell(15).toString() : "";
                     String conceptosACobrar = (fila.getCell(16) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(16).toString())) ? fila.getCell(16).toString() : "";   
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(16).toString())) ? fila.getCell(16).toString() : "";   
 
                     // Se crea el objeto con todos los datos
                     ContribuyenteExcel contribuyenteActual = new ContribuyenteExcel(nombre, apellido1, apellido2, nifnie, direccion, numero, paisCCC, ccc, iban, email, exencion, bonificacion, lecturaAnterior, lecturaActual, fechaAlta, fechaBaja, conceptosACobrar);
@@ -156,34 +159,34 @@ public class ExcelManager {
             XSSFRow fila = hojaOrdenanzas.getRow(i);
             if(fila != null) {
                 // No puede no tener nombre
-                if(fila.getCell(0) != null && !comprobarCadenaSoloEspacios(fila.getCell(0).toString())) {
+                if(fila.getCell(0) != null && !fg.comprobarCadenaSoloEspacios(fila.getCell(0).toString())) {
                     // Datos por columnas
                     String pueblo = (fila.getCell(0) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(0).toString())) ? fila.getCell(0).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(0).toString())) ? fila.getCell(0).toString() : "";
                     String tipoCalculo = (fila.getCell(1) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(1).toString())) ? fila.getCell(1).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(1).toString())) ? fila.getCell(1).toString() : "";
                     String idOrdenanza = (fila.getCell(2) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(2).toString())) ? fila.getCell(2).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(2).toString())) ? fila.getCell(2).toString() : "";
                     String concepto = (fila.getCell(3) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(3).toString())) ? fila.getCell(3).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(3).toString())) ? fila.getCell(3).toString() : "";
                     String subconcepto = (fila.getCell(4) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(4).toString())) ? fila.getCell(4).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(4).toString())) ? fila.getCell(4).toString() : "";
                     String descripcion = (fila.getCell(5) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(5).toString())) ? fila.getCell(5).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(5).toString())) ? fila.getCell(5).toString() : "";
                     String acumulable = (fila.getCell(6) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(6).toString())) ? fila.getCell(6).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(6).toString())) ? fila.getCell(6).toString() : "";
                     String precioFijo = (fila.getCell(7) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(7).toString())) ? fila.getCell(7).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(7).toString())) ? fila.getCell(7).toString() : "";
                     String m3incluidos = (fila.getCell(8) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(8).toString())) ? fila.getCell(8).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(8).toString())) ? fila.getCell(8).toString() : "";
                     String preciom3 = (fila.getCell(9) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(9).toString())) ? fila.getCell(9).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(9).toString())) ? fila.getCell(9).toString() : "";
                     String porcentajeSobreOtroConcepto = (fila.getCell(10) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(10).toString())) ? fila.getCell(10).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(10).toString())) ? fila.getCell(10).toString() : "";
                     String sobreQueConcepto = (fila.getCell(11) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(11).toString())) ? fila.getCell(11).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(11).toString())) ? fila.getCell(11).toString() : "";
                     String iva = (fila.getCell(12) != null && 
-                            !comprobarCadenaSoloEspacios(fila.getCell(12).toString())) ? fila.getCell(12).toString() : "";
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(12).toString())) ? fila.getCell(12).toString() : "";
 
                     // Se crea el objeto con todos los datos
                     OrdenanzaExcel ordenanzaActual = new OrdenanzaExcel(pueblo, tipoCalculo, idOrdenanza, concepto, subconcepto, descripcion, acumulable, precioFijo, m3incluidos, preciom3, porcentajeSobreOtroConcepto, sobreQueConcepto, iva);
@@ -208,7 +211,7 @@ public class ExcelManager {
         // Realizo los cambios
         XSSFRow hssFRow = (XSSFRow) hojaContribuyentes.getRow(fila);
         if(hssFRow.getCell(3) != null) {
-            if(!comprobarCadenaSoloEspacios(hssFRow.getCell(3).toString())) {
+            if(!fg.comprobarCadenaSoloEspacios(hssFRow.getCell(3).toString())) {
                 hssFRow.getCell(3).setCellValue(documento);
             }
         }            
@@ -217,27 +220,51 @@ public class ExcelManager {
         return result;
     }
     
-    /**
-     * Método que comprueba una cadena y determina si solo hay espacios o 
-     * hay contenido diferente a espacios en blanco
-     * @param cadena
-     * @return true si solo contiene espacios en blanco
-     * false si no solo son espacios en blanco
-     */
-    private boolean comprobarCadenaSoloEspacios(String cadena) {
-        boolean soloEspaciosBlanco = false;
-        int contEspacios = 0;
-        for(int i = 0; i < cadena.length(); i++) {
-            if(cadena.charAt(i) == ' ') {
-                contEspacios++;
+    public boolean modificarCCCHoja(String ccc, int fila) {
+        boolean result = false;
+        // Realizo los cambios
+        XSSFRow hssFRow = (XSSFRow) hojaContribuyentes.getRow(fila);
+        if(hssFRow.getCell(7) != null) {
+            if(!fg.comprobarCadenaSoloEspacios(hssFRow.getCell(7).toString())) {
+                hssFRow.getCell(7).setCellValue(ccc);
             }
+        }  
+        // Escribo los cambios realizados en el libro
+        result = agregarCambiosArchivo();
+        return result;
+    }
+    
+    public boolean agregarIBANHoja(String iban, int fila) {
+        boolean result = false;
+        // Realizo los cambios
+        XSSFRow hssFRow = (XSSFRow) hojaContribuyentes.getRow(fila);
+        if(hssFRow.getCell(8) == null) {
+            hssFRow.createCell(8).setCellValue(iban);
+        } else {
+            hssFRow.getCell(8).setCellValue(iban);
         }
-        if(contEspacios == cadena.length()) {
-            soloEspaciosBlanco = true;
-        }
-        return soloEspaciosBlanco;
+        // Escribo los cambios realizados en el libro
+        result = agregarCambiosArchivo();
+        return result;
     }
 
+    public boolean agregarEmailHoja(String email, int fila) {
+        boolean result = false;
+        // Realizo los cambios
+        XSSFRow hssFRow = (XSSFRow) hojaContribuyentes.getRow(fila);
+        if(hssFRow.getCell(9) == null) {
+            hssFRow.createCell(9).setCellValue(email);
+        } else {
+            // Si solo tiene espacios en blanco se modifica, si ya tiene correo no
+            if(fg.comprobarCadenaSoloEspacios(hssFRow.getCell(9).toString())) {
+                hssFRow.getCell(9).setCellValue(email);
+            }
+        }
+        // Escribo los cambios realizados en el libro
+        result = agregarCambiosArchivo();
+        return result;
+    }
+    
     public int getUltimaFilaContribuyentes() {
         return ultimaFilaContribuyentes;
     }
