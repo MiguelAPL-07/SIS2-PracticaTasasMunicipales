@@ -13,15 +13,28 @@ import java.util.ArrayList;
  */
 public class FuncionEmail {
     
+    // Variable donde se van a almacenar los emails generados
     private ArrayList<String> emails;
     
+    // Acceso a las funciones generales
     private FuncionesGenerales fg;
     
+    /**
+     * Constructor para incializar las variables necesarias
+     */
     public FuncionEmail() {
         emails = new ArrayList<>();
         fg = new FuncionesGenerales();
     }
     
+    /**
+     * Método que genera un Email en base al nombre, apellidos y si está ya 
+     * generado, apoda un código para que sean únicos
+     * @param nombre
+     * @param apellido1
+     * @param apellido2
+     * @return Devuelve el Email generado
+     */
     public String generarEmail(String nombre, String apellido1, String apellido2) {
         String email = "";
         String prefijo = "";
@@ -50,8 +63,8 @@ public class FuncionEmail {
     }
     
     /**
-     * Metodo que comprueba si un email ya esta en memoria
-     * @param email
+     * Método que comprueba si un email ya está en memoria
+     * @param email variable a comprobar si ya está guardada
      * @return true si esta duplicado, false si no existe todavia
      */
     public boolean compruebaEmailDuplicado(String email) {
@@ -64,6 +77,11 @@ public class FuncionEmail {
         return r;
     }
     
+    /**
+     * Método para obtener el número de veces que un Email está duplicado
+     * @param email variable a comprobar número de veces repetida
+     * @return Devuelve el número de veces que está duplicado
+     */
     public int obtenerNumVecesEmailDuplicado(String email) {
         int num = 0;
         for (String e : emails) {
@@ -74,6 +92,11 @@ public class FuncionEmail {
         return num;
     }
     
+    /**
+     * Método que obtiene el prefijo de un Email en el que tienen todos en común
+     * @param email a obtener el prefijo
+     * @return Devuelve el prefijo si tiene los dos apellidos o solo uno
+     */
     private String obtenerPrefijoEmail(String email) {
         String cadena = "";
         if(fg.comprobarCadenaSoloLetras(email.substring(0, 3))) {

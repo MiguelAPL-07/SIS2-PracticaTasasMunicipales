@@ -6,7 +6,7 @@
 package funcionesAuxiliares;
 
 /**
- *
+ * En esta clase se guardan constantes para el uso de toda la aplicación
  * @author Miguel Ángel
  */
 public final class Constantes {
@@ -26,6 +26,6 @@ public final class Constantes {
     // Ruta donde se va a guardar el archivo a escribir ErroresNifNie.xml
     public static final String RUTA_ARCHIVO_ESCRIBIR_XML_NIF_NIE = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\ErroresNifNie.xml";
     
-        // Ruta donde se va a guardar el archivo a escribir
+    // Ruta donde se va a guardar el archivo a escribir
     public static final String RUTA_ARCHIVO_ESCRIBIR_XML_CCC = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\ErroresCCC.xml";
 }

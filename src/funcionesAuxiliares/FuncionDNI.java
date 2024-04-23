@@ -8,7 +8,10 @@ package funcionesAuxiliares;
 import java.util.ArrayList;
 
 /**
- *
+ * Esta clase se encarga de gestionar los DNIs y NIEs de la aplicación
+ * Validar si son correctos, y en caso de que no, corregirlos si es posible
+ * Además de todas las comprobaciones y algoritmos necesarios para
+ * seguir los patrones adecuados y la obtención de los dígitos de control
  * @author Miguel Ángel
  */
 public class FuncionDNI {
@@ -16,6 +19,10 @@ public class FuncionDNI {
     // Se almacenan los documentos validados para encontrar duplicados
     private ArrayList<String> documentos;
     
+    /**
+     * Constructor para iniciar los documentos donde se van a almacenar los
+     * DNIs y NIEs validados
+     */
     public FuncionDNI() {
         documentos = new ArrayList<>();
     }
@@ -207,5 +214,4 @@ public class FuncionDNI {
         }
         return caracteres;
     }
-    
 }

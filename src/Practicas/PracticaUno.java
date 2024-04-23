@@ -16,17 +16,25 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 /**
- *
+ * Esta clase responde a los apartados de la Práctica Uno
+ * Solicita un DNI, comprueba si esta en base de datos e imprime los datos
+ * Actualiza los recibos del contribuyente con el DNI solicitado
+ * Elimina los recibos con la base imponible menor de la media
  * @author Miguel Ángel
  */
 public class PracticaUno {
     
+    // Conexion con la base de datos
     SessionFactory sf = null;
     Session session = null;
     
+    // Variables para guardar los datos obtenidos de la base de datos
     private List<Contribuyente> contribuyentes;
     private List<Recibos> recibos;
     
+    /**
+     * Constructor para inicializar las variables necesarias
+     */
     public PracticaUno() {
         sf = HibernateUtil.getSessionFactory();
         session = sf.openSession();
@@ -36,6 +44,10 @@ public class PracticaUno {
         recibos = obtenerRecibosBD();
     }
     
+    /**
+     * El método ejecucción se encarga de llevar a cabo paso a paso la 
+     * ejecucción completa de la práctica uno
+     */
     public void ejecucion() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("INTRODUCE UN NIF");
@@ -88,6 +100,11 @@ public class PracticaUno {
         session.close();
     }
 
+    /**
+     * Método que busca un contribuyente por su DNI en la lista obtenida
+     * @param dni El parámetro DNI indica el contribuyente a buscar por su DNI
+     * @return 
+     */
     private Contribuyente buscarContribuyentePorDNI(String dni) {
         Contribuyente contribuyente = new Contribuyente();
         for(Contribuyente cActual : contribuyentes) {
@@ -98,6 +115,10 @@ public class PracticaUno {
         return contribuyente;
     }
 
+    /**
+     * Calcula la media de la base imponible de todos los recibos que hay en BD
+     * @return La media de la base impobible
+     */
     private Double calcularMediaBaseImponible() {
         double media = 0;       
         for(Recibos rActual : recibos) {
@@ -107,6 +128,10 @@ public class PracticaUno {
         return media;
     }
     
+    /**
+     * Método que obtiene todos los contribuyentes que hay en base de datos
+     * @return Una lista con los contribuyentes
+     */
     private List<Contribuyente> obtenerContribuyentesBD() {
         List<Contribuyente> resultado = null;
         String consulta = "FROM Contribuyente c";
@@ -119,6 +144,10 @@ public class PracticaUno {
         return resultado;
     }
     
+    /**
+     * Método que obtiene todos los recibos que hay en base de datos
+     * @return Una lista con los recibos
+     */
     private List<Recibos> obtenerRecibosBD() {
         List<Recibos> resultado = null;
         String consulta = "FROM Recibos c";

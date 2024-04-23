@@ -20,20 +20,28 @@ import modeloExcel.ContribuyenteExcel;
 import modeloExcel.OrdenanzaExcel;
 
 /**
- *
+ * Esta clase responde a los apartados de la Practica Dos
+ * Comprueba los DNIs y NIEs, corrige el Excel y genera el ErroresNifNie.xml
+ * Comprueba el CCC, corrige el Excel y genera el ErroresCCC.xml
+ * Además, genera un IBAN correcto y un Email si todo lo anterior es correcto
+ * y lo guarda en el Excel
  * @author Miguel Ángel
  */
 public class PracticaDos {
     
+    // Variable para guardar el fichero que se lee
     private File ficheroLeer;
     
+    // Acceso a todo el funcionamiento con el Excel
     private ExcelManager em; 
     
+    // variables para guardar los datos obtenidos de la base de datos
     private HashMap<String, ContribuyenteExcel> contribuyentes;
-    
     private HashMap<String, OrdenanzaExcel> ordenanzas;
     
-    
+    /**
+     * Constructor para inicializar las variables necesarias
+     */
     public PracticaDos() {
         ficheroLeer = new File(Constantes.RUTA_ARCHIVO_LEER);
         
@@ -41,14 +49,20 @@ public class PracticaDos {
         
         contribuyentes = em.obtenerContribuyentes();
         ordenanzas = em.obtenerOrdenanzas();
-        
     }
     
+    /**
+     * Método público que realiza la ejecucción completa de la clase
+     */
     public void ejecucion() {
         primeraEjecucionDNI();
         segundaEjecucionCCC();
     }
 
+    /**
+     * En este método se lleva a cabo la comprobación de los DNIs y NIEs,
+     * su corrección en el Excel y la generación del ErroresNifNie.xml
+     */
     private void primeraEjecucionDNI() {
         FuncionDNI funcionDNI = new FuncionDNI();
         XmlManager xmlManager = new XmlManager();
@@ -82,6 +96,12 @@ public class PracticaDos {
         xmlManager.generarDocumentoXmlErroresNifNie();
     }
     
+    /**
+     * En este método se lleva a cabo la comprobación del CCC, su corrección 
+     * en el Excel y la generación de ErroresCCC.xml
+     * También, genera el IBAN y el Email para los casos correctos y lo 
+     * guarda en el Excel
+     */
     private void segundaEjecucionCCC() {
         // Actualizo la lista de contribuyentes con las actualizaciones
         contribuyentes = em.obtenerContribuyentes();

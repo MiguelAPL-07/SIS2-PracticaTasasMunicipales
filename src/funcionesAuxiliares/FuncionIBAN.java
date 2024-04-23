@@ -8,18 +8,30 @@ package funcionesAuxiliares;
 import java.math.BigInteger;
 
 /**
- *
+ * Esta clase calcula el IBAN, comprueba si es correcto y si el formato es 
+ * válido
  * @author Miguel Ángel
  */
 public class FuncionIBAN {
     
+    // Acceso a las funciones genrales
     FuncionesGenerales fg;
     
+    /**
+     * Constructor para incializar las variables necesarias
+     */
     public FuncionIBAN() {
         fg = new FuncionesGenerales();
     }
     
-    
+    /**
+     * Método que calcula el IBAN correspondiente a un pais y un ccc,
+     * verificando si el CCC es correcto
+     * @param pais Variable pais del que se quiere generar el IBAN
+     * @param ccc Variable ccc del que se quiere generar el IBAN
+     * @return Devuelve una cadena con el IBAN generado y una cadena vacía si 
+     * los datos eran incorrectos
+     */
     public String calculoIBAN(String pais, String ccc) {
         String iban = "";
         if(ccc.length() == 20 && pais.length() == 2) {
@@ -58,6 +70,11 @@ public class FuncionIBAN {
         return iban;
     }
     
+    /**
+     * Método que verifica si un IBAN es correcto
+     * @param iban Variable a comprobar
+     * @return Devuelve true si es correcto, false si no es correcto
+     */
     public boolean verificarIBAN(String iban) {
         boolean r = false;
         if(comrpobarFormatoIBAN(iban)) {
@@ -80,6 +97,11 @@ public class FuncionIBAN {
         return r;
     }
     
+    /**
+     * Método que comprueba si el formato del IBAN es correcto
+     * @param iban Variable a comprobar
+     * @return Devuelve true si el formato es correcto, false si no lo es
+     */
     public boolean comrpobarFormatoIBAN(String iban) {
         boolean r = false;
         if(iban.length() == 24) {

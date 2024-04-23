@@ -4,7 +4,9 @@ package funcionesAuxiliares;
 import java.time.LocalDate;
 
 /**
- *
+ * Esta clase sirve para trabajar con distintos formatos de fecha
+ * dentro de la aplicación y tratar las fechas de toda la aplicación y los
+ * formatos de Excel
  * @author Miguel Ángel
  */
 public class Fecha {
@@ -25,7 +27,11 @@ public class Fecha {
         this.ano = ano;
     }
     
-    // dd-mes-aaaa
+    /**
+     * Método que transforma la fecha de Excel en el formato dd-mm-aaaa
+     * @param fecha Fecha de entrada en el formato dd-mes-aaaa
+     * @return Devuelve un objeto fecha en el que su formato es dd-mm-aaaa
+     */
     public Fecha transformarFechaExcel(String fecha) {
         Fecha f = new Fecha();
         String[] partes = fecha.split("-");
@@ -72,6 +78,11 @@ public class Fecha {
         return f;
     }
     
+    /**
+     * Método que devuelve el nombre del mes que se solicita
+     * @param m Es el mes en número a obtener
+     * @return Devuelve el nombre del mes completo en una cadena
+     */
     public String obtenerMes(int m) {
         String f = "";
         switch(m) {
@@ -116,6 +127,11 @@ public class Fecha {
     }
     
     // mm/aaaa
+    /**
+     * Método que transforma una fecha de entrada en un objeto Fecha
+     * @param fecha Formato de fecha de entrada mm/aaaa
+     * @return Devuelve un objeto fecha que sigue el formato dd-mm-aaaa
+     */
     public Fecha transformarFechaEntradaTeclado(String fecha) {
         Fecha f = new Fecha();
         String[] partes = fecha.split("/");
@@ -125,6 +141,11 @@ public class Fecha {
     }
     
     // Devuelve el numero de dias que tiene el mes solicitado
+    /**
+     * Método que devuelve el número de días que tiene el me solicitado
+     * @param mes Mes solicitado
+     * @return Devuelve el número de días del mes
+     */
     public int calcularNumDiasMes(int mes) {
         int num = 0;
         switch(mes) {
@@ -169,6 +190,12 @@ public class Fecha {
     }
     
     // Comprueba si la fecha introducida es posterior a la fecha actual del sistema
+    /**
+     * Método que comprueba si la fecha introducida es posterior a la 
+     * fecha actual del sistema
+     * @param f, Es la fecha a comprobar
+     * @return Devuelve true si es posterior a la fecha actual, false si no lo es
+     */
     public boolean comprobarFechaPosteriorAFechaActual(Fecha f) {
         boolean result = false;
         LocalDate fechaActual = LocalDate.now();
@@ -206,8 +233,5 @@ public class Fecha {
     @Override
     public String toString() {
         return "Fecha{" + "dia=" + dia + ", mes=" + mes + ", ano=" + ano + '}';
-    }
-    
-    
-    
+    }  
 }

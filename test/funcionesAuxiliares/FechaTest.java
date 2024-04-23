@@ -25,7 +25,7 @@ public class FechaTest {
         Fecha f = new Fecha(21, 4, 2024);
         assertEquals(false, fecha.comprobarFechaPosteriorAFechaActual(f));
         
-        f = new Fecha(23, 4, 2024);
+        f = new Fecha(23, 4, 2030);
         assertEquals(true, f.comprobarFechaPosteriorAFechaActual(f));
         
         f = new Fecha(21, 4, 2022);
