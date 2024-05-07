@@ -37,6 +37,9 @@ public class XmlManager {
     // Documento para ErroresCCC.xml
     private Document documentoErroresCCC;
     
+    // Dcumento para Recibos.xml
+    private Document documentoRecibos;
+    
     public XmlManager() {
         iniciarlizarDocumentoErroresNifNie();
         iniciarlizarDocumentoErroresCCC();
@@ -138,7 +141,7 @@ public class XmlManager {
     public void agregarNodoDocumentoErroresCCC(int id, String nombre, String apellidos,
             String nifnie, String cccErroneo, String ibanCorrecto) {
         
-// Creo el elemento principal
+        // Creo el elemento principal
         Element contribuyente = documentoErroresCCC.createElement("Cuenta");
         contribuyente.setAttribute("id", String.valueOf(id+1));
         
@@ -154,8 +157,6 @@ public class XmlManager {
         Element nif_nie = documentoErroresCCC.createElement("NIFNIE");
         Text textoNifnie = documentoErroresCCC.createTextNode(nifnie);
         nif_nie.appendChild(textoNifnie);
-        
-        
         
         Element elementCCCErroneo = documentoErroresCCC.createElement("CCCErroneo");
         Text textoCCCErroneo = documentoErroresCCC.createTextNode(cccErroneo);
@@ -183,6 +184,140 @@ public class XmlManager {
             Source source = new DOMSource(documentoErroresCCC);
 
             File f = new File(Constantes.RUTA_ARCHIVO_ESCRIBIR_XML_CCC);
+            FileWriter fw = new FileWriter(f);
+            PrintWriter pw = new PrintWriter(fw);
+
+            // Creo el Result, indicado que fichero se va a crear
+            Result result = new StreamResult(pw);
+
+            // Creo un transformer, se crea el fichero XML
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(source, result);
+        } catch (IOException | TransformerException e) {
+            System.out.println(e.toString());
+        }
+        
+    }
+    
+    
+    // cambiar boolean
+    public void iniciarlizarDocumentoRecibos() {
+        try {
+            // Creo una instancia de DocumentBuilderFactory
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            // Creo un documentBuilder
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            // Creo un DOMImplementation
+            DOMImplementation implementation = builder.getDOMImplementation();
+
+            // Creo un documento con un elemento raiz
+            documentoRecibos = implementation.createDocument(null, "Recibos", null);
+            // Version 1.0
+            documentoRecibos.setXmlVersion("1.0");
+            
+        } catch (ParserConfigurationException e) {
+            System.out.println("Error al iniciar el documento Recibos.xml");
+            System.out.println(e.toString());
+        }
+    }
+    
+    public void actualizarAtributosTotalesRecibos(String fechaPadron, 
+            String totalBaseImpobible, String totalIva, String totalRecibos) {
+        // Agrego los atributos al elemento raiz
+        documentoRecibos.getDocumentElement().setAttribute("fechaPadron", fechaPadron);
+        documentoRecibos.getDocumentElement().setAttribute("totalBaseImponible", totalBaseImpobible);
+        documentoRecibos.getDocumentElement().setAttribute("totalIva", totalIva);
+        documentoRecibos.getDocumentElement().setAttribute("totalRecibos", totalRecibos);
+    }
+    
+    public void agregarNodoDocumentoRecibos(String idRecibo, String exencion, 
+            String idFilaExcel, String nombre, String apellido1, String apellido2, 
+            String nif, String iban, String lecturaActual, String lecturaAnterior,
+            String consumo, String baseImponibleRecibo, String ivaRecibo, String totalRecibo) {
+        
+        // Creo el elemento principal
+        Element recibo = documentoRecibos.createElement("Recibo");
+        recibo.setAttribute("idRecibo", idRecibo);
+        
+        // Creo los subelementos
+        Element elementExencion = documentoRecibos.createElement("Exencion");
+        Text textoExencion = documentoRecibos.createTextNode(exencion);
+        elementExencion.appendChild(textoExencion);
+        
+        Element elementIdFilaExcel = documentoRecibos.createElement("idFilaExcel");
+        Text textoIdFilaExcel = documentoRecibos.createTextNode(idFilaExcel);
+        elementIdFilaExcel.appendChild(textoIdFilaExcel);
+        
+        Element elementNombre = documentoRecibos.createElement("nombre");
+        Text textoNombre = documentoRecibos.createTextNode(nombre);
+        elementNombre.appendChild(textoNombre);
+        
+        Element elementApellido1 = documentoRecibos.createElement("primerApellido");
+        Text textoApellido1 = documentoRecibos.createTextNode(apellido1);
+        elementApellido1.appendChild(textoApellido1);
+        
+        Element elementApellido2 = documentoRecibos.createElement("segundoApellido");
+        Text textoApellido2 = documentoRecibos.createTextNode(apellido2);
+        elementApellido2.appendChild(textoApellido2);
+        
+        Element elementNif = documentoRecibos.createElement("NIF");
+        Text textoNif = documentoRecibos.createTextNode(nif);
+        elementNif.appendChild(textoNif);
+        
+        Element elementIban = documentoRecibos.createElement("IBAN");
+        Text textoIban = documentoRecibos.createTextNode(iban);
+        elementIban.appendChild(textoIban);
+        
+        Element elementLecturaActual = documentoRecibos.createElement("lecturaActual");
+        Text textoLecturaActual = documentoRecibos.createTextNode(lecturaActual);
+        elementLecturaActual.appendChild(textoLecturaActual);
+        
+        Element elementLecturaAnterior = documentoRecibos.createElement("lecturaAnterior");
+        Text textoLecturaAnterior = documentoRecibos.createTextNode(lecturaAnterior);
+        elementLecturaAnterior.appendChild(textoLecturaAnterior);
+        
+        Element elementConsumo = documentoRecibos.createElement("consumo");
+        Text textoConsumo = documentoRecibos.createTextNode(consumo);
+        elementConsumo.appendChild(textoConsumo);
+        
+        Element elementBaseImponibleRecibo = documentoRecibos.createElement("baseImponibleRecibo");
+        Text textoBaseImponibleRecibo = documentoRecibos.createTextNode(baseImponibleRecibo);
+        elementBaseImponibleRecibo.appendChild(textoBaseImponibleRecibo);
+        
+        Element elementIvaRecibo = documentoRecibos.createElement("ivaRecibo");
+        Text textoIvaRecibo = documentoRecibos.createTextNode(ivaRecibo);
+        elementIvaRecibo.appendChild(textoIvaRecibo);
+        
+        Element elementTotalRecibo = documentoRecibos.createElement("totalRecibo");
+        Text textoTotalRecibo = documentoRecibos.createTextNode(totalRecibo);
+        elementTotalRecibo.appendChild(textoTotalRecibo);
+
+        // Añado los subelementos
+        recibo.appendChild(elementExencion);
+        recibo.appendChild(elementIdFilaExcel);
+        recibo.appendChild(elementNombre);
+        recibo.appendChild(elementApellido1);
+        recibo.appendChild(elementApellido2);
+        recibo.appendChild(elementNif);
+        recibo.appendChild(elementIban);
+        recibo.appendChild(elementLecturaActual);
+        recibo.appendChild(elementLecturaAnterior);
+        recibo.appendChild(elementConsumo);
+        recibo.appendChild(elementBaseImponibleRecibo);
+        recibo.appendChild(elementIvaRecibo);
+        recibo.appendChild(elementTotalRecibo);
+        
+        // Añado al root el elemento contribuyentes
+        documentoRecibos.getDocumentElement().appendChild(recibo);
+    }
+    
+    //Agregar boolean
+    public void generarDocumentoXmlRecibos() {
+        try {
+            // Asocio el source con el Document
+            Source source = new DOMSource(documentoRecibos);
+
+            File f = new File(Constantes.RUTA_ARCHIVO_ESCRIBIR_XML_RECIBOS);
             FileWriter fw = new FileWriter(f);
             PrintWriter pw = new PrintWriter(fw);
 

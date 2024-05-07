@@ -28,4 +28,8 @@ public final class Constantes {
     
     // Ruta donde se va a guardar el archivo a escribir
     public static final String RUTA_ARCHIVO_ESCRIBIR_XML_CCC = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\ErroresCCC.xml";
+
+    // Ruta donde se va a guardar el archivo a escribir
+    public static final String RUTA_ARCHIVO_ESCRIBIR_XML_RECIBOS = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\Recibos.xml";
+
 }
