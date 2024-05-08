@@ -5,6 +5,7 @@
  */
 package practicatasasmunicipales;
 
+import Practicas.PracticaCuatro;
 import Practicas.PracticaDos;
 import Practicas.PracticaTres;
 import Practicas.PracticaUno;
@@ -23,6 +24,7 @@ public class GestorApp {
         //ejecucionPracticaUno();
         ejeccucionPracticaDos();
         ejecucionPracticaTres();
+        ejecucionPracticaCuatro();
     }
     
     private void ejecucionPracticaUno() {
@@ -38,5 +40,10 @@ public class GestorApp {
     private void ejecucionPracticaTres() {
         PracticaTres p3 = new PracticaTres();
         p3.ejecuccion();
+    }
+    
+    private void ejecucionPracticaCuatro() {
+        PracticaCuatro p4 = new PracticaCuatro();
+        p4.ejecuccion();
     }
 }
