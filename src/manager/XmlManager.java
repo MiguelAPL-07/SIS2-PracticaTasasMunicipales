@@ -222,10 +222,10 @@ public class XmlManager {
     }
     
     public void actualizarAtributosTotalesRecibos(String fechaPadron, 
-            String totalBaseImpobible, String totalIva, String totalRecibos) {
+            String totalBaseImponible, String totalIva, String totalRecibos) {
         // Agrego los atributos al elemento raiz
         documentoRecibos.getDocumentElement().setAttribute("fechaPadron", fechaPadron);
-        documentoRecibos.getDocumentElement().setAttribute("totalBaseImponible", totalBaseImpobible);
+        documentoRecibos.getDocumentElement().setAttribute("totalBaseImponible", totalBaseImponible);
         documentoRecibos.getDocumentElement().setAttribute("totalIva", totalIva);
         documentoRecibos.getDocumentElement().setAttribute("totalRecibos", totalRecibos);
     }

@@ -6,12 +6,14 @@
 package Practicas;
 
 import funcionesAuxiliares.Constantes;
+import funcionesAuxiliares.Fecha;
+import funcionesAuxiliares.FuncionDNI;
 import funcionesAuxiliares.FuncionesRecibo;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import manager.ExcelManager;
+import manager.XmlManager;
 import modelo.LineasReciboModelo;
 import modeloExcel.ContribuyenteExcel;
 import modeloExcel.OrdenanzaExcel;
@@ -26,30 +28,78 @@ public class PracticaTres {
     
     private HashMap<String, ContribuyenteExcel> contribuyentes;
     
-    private HashMap<String, OrdenanzaExcel> ordenanzas;
-    
     public PracticaTres() {
-        excelManager = new ExcelManager(new File(Constantes.RUTA_ARCHIVO_LEER));
+        excelManager = new ExcelManager(new File(Constantes.RUTA_ARCHIVO_ESCRIBIR));
         
         contribuyentes = excelManager.obtenerContribuyentes();
-        
-        ordenanzas = excelManager.obtenerOrdenanzas();
     }
     
     public void ejecuccion() {
         
+        FuncionDNI fDNI = new FuncionDNI();
         FuncionesRecibo funcionesRecibo = new FuncionesRecibo();
+        
+        XmlManager xmlManager = new XmlManager();
+        xmlManager.iniciarlizarDocumentoRecibos();
+        
+        double totalBaseImponibleRecibos = 0;
+        double totalIvaRecibos = 0;
+        double totalRecibos = 0;
+        
+        int idRecibo = 1257;
         
         for(int i = 1; i <= excelManager.getUltimaFilaContribuyentes(); i++) {
             // Comprobar documento
             if(contribuyentes.containsKey(String.valueOf(i))) {
                 ContribuyenteExcel c = (ContribuyenteExcel) contribuyentes.get(String.valueOf(i));
                 
-                List<LineasReciboModelo> lineasRecibo = new ArrayList<>();
-                lineasRecibo = funcionesRecibo.generarLineasRecibo(c);
-        
-                System.out.println(funcionesRecibo.calcularTotalBaseImponible(lineasRecibo));
+                if(fDNI.validadorNIF_NIE(c.getNifnie()) == 0) {
+                    Fecha f = new Fecha();
+                    f = f.transformarFechaExcel(c.getFechaAlta());
+                    // Verificamos si la fecha alta es anterior a la actual
+                    if(!f.comprobarFechaPosteriorAFechaActual(f)) {
+                
+                        List<LineasReciboModelo> lineasRecibo = funcionesRecibo.generarLineasRecibo(c);
+
+                        double baseImponible = funcionesRecibo.calcularTotalBaseImponible(lineasRecibo);
+                        double ivaRecibo = funcionesRecibo.calcularTotalImporteIva(lineasRecibo);
+                        double totalRecibo = baseImponible + ivaRecibo;
+                        
+                        int consumo = (int) funcionesRecibo.calcularTotalConsumo(lineasRecibo);
+                        int lecturaActual = (int) Double.parseDouble(c.getLecturaActual());
+                        int lecturaAnterior = (int) Double.parseDouble(c.getLecturaAnterior());
+                        
+                        // Comprobamos si el contribuyente esta exento de pagar el recibo
+                        if(!c.getExencion().isEmpty()) {
+                            if(c.getExencion().equalsIgnoreCase("S")) {
+                                totalRecibo = 0;
+                            }
+                        }   
+
+                        xmlManager.agregarNodoDocumentoRecibos(String.valueOf(idRecibo), c.getExencion(), 
+                                String.valueOf(i+1), c.getNombre(), c.getApellido1(), 
+                                c.getApellido2(), c.getNifnie(), c.getIban(), 
+                                String.valueOf(lecturaActual), String.valueOf(lecturaAnterior), String.valueOf(consumo), 
+                                String.valueOf(baseImponible), String.valueOf(ivaRecibo), 
+                                String.valueOf(totalRecibo));
+
+                        // Actualizamos los totales
+                        totalBaseImponibleRecibos += baseImponible;
+                        totalIvaRecibos += ivaRecibo;
+                        idRecibo ++;
+                    }
+                }
             }
         }
+        // Actualizamos el total
+        totalRecibos = totalBaseImponibleRecibos + totalIvaRecibos;
+        
+        // Actualizamos los atributos totales del xml
+        xmlManager.actualizarAtributosTotalesRecibos("1T de 2024", 
+                String.format("%.2f", totalBaseImponibleRecibos), 
+                String.format("%.2f", totalIvaRecibos), String.format("%.2f", totalRecibos));
+        
+        // Se genera el documento xml
+        xmlManager.generarDocumentoXmlRecibos();
     }
 }

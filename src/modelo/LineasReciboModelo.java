@@ -93,6 +93,11 @@ public class LineasReciboModelo {
     public void setImporteIva(double importeIva) {
         this.importeIva = importeIva;
     }
+
+    @Override
+    public String toString() {
+        return "LineasReciboModelo{" + "idConcepto=" + idConcepto + ", concepto=" + concepto + ", subconcepto=" + subconcepto + ", m3incluidos=" + m3incluidos + ", baseImponible=" + baseImponible + ", porcentajeIva=" + porcentajeIva + ", importeIva=" + importeIva + '}';
+    }
     
     
 }

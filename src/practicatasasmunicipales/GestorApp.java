@@ -21,7 +21,7 @@ public class GestorApp {
     
     public void iniciarAplicacion() {
         //ejecucionPracticaUno();
-        //ejeccucionPracticaDos();
+        ejeccucionPracticaDos();
         ejecucionPracticaTres();
     }
     
