@@ -32,4 +32,9 @@ public final class Constantes {
     // Ruta donde se va a guardar el archivo a escribir
     public static final String RUTA_ARCHIVO_ESCRIBIR_XML_RECIBOS = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\Recibos.xml";
 
+    // Ruta donde se obtiene la imagen genérica para todos los PDF's
+    public final static String IMAGEN_GENERICA_PDF = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\img\\agua.png";
+    
+    // Ruta genérica donde se va a guardar todos los recibos
+    public static final String RUTA_GENERICA_RECIBO_PDF = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\recibos";
 }
