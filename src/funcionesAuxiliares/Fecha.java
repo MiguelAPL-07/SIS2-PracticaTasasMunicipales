@@ -232,6 +232,6 @@ public class Fecha {
 
     @Override
     public String toString() {
-        return "Fecha{" + "dia=" + dia + ", mes=" + mes + ", ano=" + ano + '}';
+        return dia + "/" + mes + "/" + ano;
     }  
 }

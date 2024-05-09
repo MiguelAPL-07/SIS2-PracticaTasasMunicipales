@@ -24,11 +24,15 @@ public class LineasReciboModelo {
     private double porcentajeIva;
     
     private double importeIva;
+    
+    private double bonificacion;
+    
+    private double importeBonificacion;
 
     public LineasReciboModelo() {
     }
 
-    public LineasReciboModelo(int idConcepto, String concepto, String subconcepto, double m3incluidos, double baseImponible, double porcentajeIva, double importeIva) {
+    public LineasReciboModelo(int idConcepto, String concepto, String subconcepto, double m3incluidos, double baseImponible, double porcentajeIva, double importeIva, double bonificacion, double importeBonificacion) {
         this.idConcepto = idConcepto;
         this.concepto = concepto;
         this.subconcepto = subconcepto;
@@ -36,6 +40,8 @@ public class LineasReciboModelo {
         this.baseImponible = baseImponible;
         this.porcentajeIva = porcentajeIva;
         this.importeIva = importeIva;
+        this.bonificacion = bonificacion;
+        this.importeBonificacion = importeBonificacion;
     }
 
     public int getIdConcepto() {
@@ -45,7 +51,7 @@ public class LineasReciboModelo {
     public void setIdConcepto(int idConcepto) {
         this.idConcepto = idConcepto;
     }
-    
+
     public String getConcepto() {
         return concepto;
     }
@@ -94,10 +100,26 @@ public class LineasReciboModelo {
         this.importeIva = importeIva;
     }
 
+    public double getBonificacion() {
+        return bonificacion;
+    }
+
+    public void setBonificacion(double bonificacion) {
+        this.bonificacion = bonificacion;
+    }
+
+    public double getImporteBonificacion() {
+        return importeBonificacion;
+    }
+
+    public void setImporteBonificacion(double importeBonificacion) {
+        this.importeBonificacion = importeBonificacion;
+    }
+
     @Override
     public String toString() {
-        return "LineasReciboModelo{" + "idConcepto=" + idConcepto + ", concepto=" + concepto + ", subconcepto=" + subconcepto + ", m3incluidos=" + m3incluidos + ", baseImponible=" + baseImponible + ", porcentajeIva=" + porcentajeIva + ", importeIva=" + importeIva + '}';
+        return "LineasReciboModelo{" + "idConcepto=" + idConcepto + ", concepto=" + concepto + ", subconcepto=" + subconcepto + ", m3incluidos=" + m3incluidos + ", baseImponible=" + baseImponible + ", porcentajeIva=" + porcentajeIva + ", importeIva=" + importeIva + ", bonificacion=" + bonificacion + ", importeBonificacion=" + importeBonificacion + '}';
     }
-    
+
     
 }
