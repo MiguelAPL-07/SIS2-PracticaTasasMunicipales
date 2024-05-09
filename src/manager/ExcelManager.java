@@ -128,12 +128,12 @@ public class ExcelManager {
                             !fg.comprobarCadenaSoloEspacios(fila.getCell(9).toString())) ? fila.getCell(9).toString() : "";
                     String exencion = (fila.getCell(10) != null && 
                             !fg.comprobarCadenaSoloEspacios(fila.getCell(10).toString())) ? fila.getCell(10).toString() : "";
-                    String bonificacion = (fila.getCell(11) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(11).toString())) ? fila.getCell(11).toString() : "";
-                    String lecturaAnterior = (fila.getCell(12) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(12).toString())) ? fila.getCell(12).toString() : "";
-                    String lecturaActual = (fila.getCell(13) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(13).toString())) ? fila.getCell(13).toString() : "";      
+                    double bonificacion = (fila.getCell(11) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(11).toString())) ? Double.parseDouble(fila.getCell(11).toString()) : 0;
+                    int lecturaAnterior = (fila.getCell(12) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(12).toString())) ? (int) Double.parseDouble(fila.getCell(12).toString()) : 0;
+                    int lecturaActual = (fila.getCell(13) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(13).toString())) ? (int) Double.parseDouble(fila.getCell(13).toString()) : 0;      
                     String fechaAlta = (fila.getCell(14) != null && 
                             !fg.comprobarCadenaSoloEspacios(fila.getCell(14).toString())) ? fila.getCell(14).toString() : "";
                     String fechaBaja = (fila.getCell(15) != null && 
@@ -165,8 +165,8 @@ public class ExcelManager {
                             !fg.comprobarCadenaSoloEspacios(fila.getCell(0).toString())) ? fila.getCell(0).toString() : "";
                     String tipoCalculo = (fila.getCell(1) != null && 
                             !fg.comprobarCadenaSoloEspacios(fila.getCell(1).toString())) ? fila.getCell(1).toString() : "";
-                    String idOrdenanza = (fila.getCell(2) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(2).toString())) ? fila.getCell(2).toString() : "";
+                    int idOrdenanza = (fila.getCell(2) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(2).toString())) ? (int) Double.parseDouble(fila.getCell(2).toString()) : 0;
                     String concepto = (fila.getCell(3) != null && 
                             !fg.comprobarCadenaSoloEspacios(fila.getCell(3).toString())) ? fila.getCell(3).toString() : "";
                     String subconcepto = (fila.getCell(4) != null && 
@@ -175,18 +175,18 @@ public class ExcelManager {
                             !fg.comprobarCadenaSoloEspacios(fila.getCell(5).toString())) ? fila.getCell(5).toString() : "";
                     String acumulable = (fila.getCell(6) != null && 
                             !fg.comprobarCadenaSoloEspacios(fila.getCell(6).toString())) ? fila.getCell(6).toString() : "";
-                    String precioFijo = (fila.getCell(7) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(7).toString())) ? fila.getCell(7).toString() : "";
-                    String m3incluidos = (fila.getCell(8) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(8).toString())) ? fila.getCell(8).toString() : "";
-                    String preciom3 = (fila.getCell(9) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(9).toString())) ? fila.getCell(9).toString() : "";
-                    String porcentajeSobreOtroConcepto = (fila.getCell(10) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(10).toString())) ? fila.getCell(10).toString() : "";
-                    String sobreQueConcepto = (fila.getCell(11) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(11).toString())) ? fila.getCell(11).toString() : "";
-                    String iva = (fila.getCell(12) != null && 
-                            !fg.comprobarCadenaSoloEspacios(fila.getCell(12).toString())) ? fila.getCell(12).toString() : "";
+                    int precioFijo = (fila.getCell(7) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(7).toString())) ? (int) Double.parseDouble(fila.getCell(7).toString()) : 0;
+                    int m3incluidos = (fila.getCell(8) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(8).toString())) ? (int) Double.parseDouble(fila.getCell(8).toString()) : 0;
+                    double preciom3 = (fila.getCell(9) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(9).toString())) ? Double.parseDouble(fila.getCell(9).toString()) : 0;
+                    double porcentajeSobreOtroConcepto = (fila.getCell(10) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(10).toString())) ? Double.parseDouble(fila.getCell(10).toString()) : 0;
+                    int sobreQueConcepto = (fila.getCell(11) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(11).toString())) ? (int) Double.parseDouble(fila.getCell(11).toString()) : 0;
+                    double iva = (fila.getCell(12) != null && 
+                            !fg.comprobarCadenaSoloEspacios(fila.getCell(12).toString())) ? Double.parseDouble(fila.getCell(12).toString()) : 0;
 
                     // Se crea el objeto con todos los datos
                     OrdenanzaExcel ordenanzaActual = new OrdenanzaExcel(pueblo, tipoCalculo, idOrdenanza, concepto, subconcepto, descripcion, acumulable, precioFijo, m3incluidos, preciom3, porcentajeSobreOtroConcepto, sobreQueConcepto, iva);

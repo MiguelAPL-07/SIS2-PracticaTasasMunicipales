@@ -22,9 +22,9 @@ public class ContribuyenteExcel {
     private String iban;
     private String email;
     private String exencion;
-    private String bonificacion;
-    private String lecturaAnterior;
-    private String lecturaActual;
+    private double bonificacion;
+    private int lecturaAnterior;
+    private int lecturaActual;
     private String fechaAlta;
     private String fechaBaja;
     private String conceptosACobrar;
@@ -32,7 +32,7 @@ public class ContribuyenteExcel {
     public ContribuyenteExcel() {
     }
 
-    public ContribuyenteExcel(String nombre, String apellido1, String apellido2, String nifnie, String direccion, String numero, String paisCCC, String ccc, String iban, String email, String exencion, String bonificacion, String lecturaAnterior, String lecturaActual, String fechaAlta, String fechaBaja, String conceptosACobrar) {
+    public ContribuyenteExcel(String nombre, String apellido1, String apellido2, String nifnie, String direccion, String numero, String paisCCC, String ccc, String iban, String email, String exencion, double bonificacion, int lecturaAnterior, int lecturaActual, String fechaAlta, String fechaBaja, String conceptosACobrar) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -140,27 +140,27 @@ public class ContribuyenteExcel {
         this.exencion = exencion;
     }
 
-    public String getBonificacion() {
+    public double getBonificacion() {
         return bonificacion;
     }
 
-    public void setBonificacion(String bonificacion) {
+    public void setBonificacion(double bonificacion) {
         this.bonificacion = bonificacion;
     }
 
-    public String getLecturaAnterior() {
+    public int getLecturaAnterior() {
         return lecturaAnterior;
     }
 
-    public void setLecturaAnterior(String lecturaAnterior) {
+    public void setLecturaAnterior(int lecturaAnterior) {
         this.lecturaAnterior = lecturaAnterior;
     }
 
-    public String getLecturaActual() {
+    public int getLecturaActual() {
         return lecturaActual;
     }
 
-    public void setLecturaActual(String lecturaActual) {
+    public void setLecturaActual(int lecturaActual) {
         this.lecturaActual = lecturaActual;
     }
 
@@ -188,8 +188,6 @@ public class ContribuyenteExcel {
         this.conceptosACobrar = conceptosACobrar;
     }
 
-    @Override
-    public String toString() {
-        return "ContribuyenteExcel{" + "nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2 + ", nifnie=" + nifnie + ", direccion=" + direccion + ", numero=" + numero + ", paisCCC=" + paisCCC + ", ccc=" + ccc + ", iban=" + iban + ", email=" + email + ", exencion=" + exencion + ", bonificacion=" + bonificacion + ", lecturaAnterior=" + lecturaAnterior + ", lecturaActual=" + lecturaActual + ", fechaAlta=" + fechaAlta + ", fechaBaja=" + fechaBaja + ", conceptosACobrar=" + conceptosACobrar + '}';
-    }    
+    
+   
 }

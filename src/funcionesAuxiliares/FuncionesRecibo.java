@@ -7,7 +7,6 @@ package funcionesAuxiliares;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import manager.ExcelManager;
@@ -37,20 +36,17 @@ public class FuncionesRecibo {
         // Conceptos a cobrar
         String[] conceptos = c.getConceptosACobrar().split(" ");
         // Obtengo el consumo que hay entre lecturas
-        int consumo = Integer.valueOf(c.getLecturaActual().replace(".0", "")) - Integer.valueOf(c.getLecturaAnterior().replace(".0", ""));
+        int consumo = c.getLecturaActual() - c.getLecturaAnterior();
         
-        double bonificacion = 0;
-        if(!c.getBonificacion().isEmpty()) {
-            bonificacion = Double.parseDouble(c.getBonificacion());
-        }
+        double bonificacion = c.getBonificacion();
 
         // Recorro todos los conceptos que tiene el recibo
         for(int i = 0; i < conceptos.length; i++) {
             // Obtengo el concepto a calcular
-            String concepto = conceptos[i].replace(" ", "");
+            int concepto = Integer.valueOf(conceptos[i].replace(" ", ""));
             
             // Compruebo si el concepto ya esta calculado
-            if(!comprobarTodosConceptosCalculados(concepto, lineasRecibo)) {
+            if(!comprobarConceptoCalculado(concepto, lineasRecibo)) {
                 
                 // Actualizo la lista con las nuevas lineas generadas
                 lineasRecibo = generarLineasReciboConcepto(lineasRecibo, concepto, consumo, bonificacion);
@@ -64,42 +60,29 @@ public class FuncionesRecibo {
     }
     
     // Actualiza la lista ingresada por parametro las lineas del recibo en base al concepto
-    private List<LineasReciboModelo> generarLineasReciboConcepto(List<LineasReciboModelo> lineasRecibo, String concepto, int consumo, double bonificacion) {
+    private List<LineasReciboModelo> generarLineasReciboConcepto(List<LineasReciboModelo> lineasRecibo, int concepto, int consumo, double bonificacion) {
         // Recorro todos los conceptos que hay en el Excel     
         for(int j = 1; j <= excelManager.getUltimaFilaOrdenanzas(); j++) {
                 
             // Obtengo la ordenanza actual
             OrdenanzaExcel o = (OrdenanzaExcel) ordenanzas.get(String.valueOf(j));
 
-            int idOrdenanza = 0;
-            if(!o.getIdOrdenanza().isEmpty()) {
-                idOrdenanza = Integer.parseInt(o.getIdOrdenanza().replace(".0", ""));
-            }
+            int idOrdenanza = o.getIdOrdenanza();
 
             // Si el concepto coincide con el id de la ordenanza, se añade al recibo
-            if(Integer.parseInt(concepto) == idOrdenanza) {
+            if(concepto == idOrdenanza) {
 
                 // Preparar datos a usar
-                int precioFijo = 0;
-                if(!o.getPrecioFijo().isEmpty()) {
-                    precioFijo = Integer.parseInt(o.getPrecioFijo().replace(".0", ""));
-                }
-                int m3incluidos = 0;
-                if(!o.getM3incluidos().isEmpty()) {
-                    m3incluidos = Integer.parseInt(o.getM3incluidos().replace(".0", ""));
-                }
-                double preciom3 = 0;
-                if(!o.getPreciom3().isEmpty()) {
-                    preciom3 = Double.parseDouble(o.getPreciom3());
-                }
-                double porcentajeSobreOtrosConceptos = 0;
-                if(!o.getPorcentajeSobreOtroConcepto().isEmpty()) {
-                     porcentajeSobreOtrosConceptos = Double.parseDouble(o.getPorcentajeSobreOtroConcepto());
-                }
-                double iva = 0;
-                if(!o.getIva().isEmpty()) {
-                     iva = Double.parseDouble(o.getIva());
-                }
+                int precioFijo = o.getPrecioFijo();
+
+                int m3incluidos = o.getM3incluidos();
+
+                double preciom3 = o.getPreciom3();
+
+                double porcentajeSobreOtrosConceptos = o.getPorcentajeSobreOtroConcepto();
+
+                double iva = o.getIva();
+
                 String acumulable = "N";
                 if(!o.getAcumulable().isEmpty()) {
                     acumulable = o.getAcumulable();
@@ -151,10 +134,10 @@ public class FuncionesRecibo {
 
                 // Se comprueba si tiene otro porcentaje sobre otro concepto
                 if(porcentajeSobreOtrosConceptos > 0) {
-                    String sobreQueConcepto = o.getSobreQueConcepto().replaceAll(".0", "");
+                    int sobreQueConcepto = o.getSobreQueConcepto();
                     
                     // Comprueba si el otro concepto ya se ha calculado
-                    boolean calculado = comprobarTodosConceptosCalculados(sobreQueConcepto, lineasRecibo);
+                    boolean calculado = comprobarConceptoCalculado(sobreQueConcepto, lineasRecibo);
                    
                     if(!calculado) {
                         // Se actualiza las lineas del recibo
@@ -164,7 +147,7 @@ public class FuncionesRecibo {
                     // Calcula Base Imponible sobre el otro concepto
                     double t = 0;
                     for(LineasReciboModelo lActual : lineasRecibo) {
-                        if(lActual.getIdConcepto() == Integer.parseInt(sobreQueConcepto)) {
+                        if(lActual.getIdConcepto() == sobreQueConcepto) {
                             t = t + lActual.getBaseImponible();
                         }
                     }
@@ -180,9 +163,9 @@ public class FuncionesRecibo {
                 importeIva = baseImponible * iva / 100;
 
                 // Agregar linea recibo
-                lineasRecibo.add(new LineasReciboModelo(Integer.parseInt(concepto), 
+                lineasRecibo.add(new LineasReciboModelo(concepto, 
                         o.getConcepto(), o.getSubconcepto(), consumoTramo, 
-                        baseImponible, Double.parseDouble(o.getIva()), importeIva));
+                        baseImponible, o.getIva(), importeIva));
             }
         }
         return lineasRecibo;
@@ -232,6 +215,16 @@ public class FuncionesRecibo {
             }
         }
         
+        return r;
+    }
+    
+    private boolean comprobarConceptoCalculado(int concepto, List<LineasReciboModelo> lineasReciboGeneradas) {
+        boolean r = false;
+        for(LineasReciboModelo lActual : lineasReciboGeneradas) {
+            if(lActual.getIdConcepto() == concepto) {
+                r = true;
+            }
+        }
         return r;
     }
 }

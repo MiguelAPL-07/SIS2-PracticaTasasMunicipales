@@ -13,22 +13,22 @@ public class OrdenanzaExcel {
     
     private String pueblo;
     private String tipoCalculo;
-    private String idOrdenanza;
+    private int idOrdenanza;
     private String concepto;
     private String subconcepto;
     private String descripcion;
     private String acumulable;
-    private String precioFijo;
-    private String m3incluidos;
-    private String preciom3;
-    private String porcentajeSobreOtroConcepto;
-    private String sobreQueConcepto;
-    private String iva;
+    private int precioFijo;
+    private int m3incluidos;
+    private double preciom3;
+    private double porcentajeSobreOtroConcepto;
+    private int sobreQueConcepto;
+    private double iva;
 
     public OrdenanzaExcel() {
     }
 
-    public OrdenanzaExcel(String pueblo, String tipoCalculo, String idOrdenanza, String concepto, String subconcepto, String descripcion, String acumulable, String precioFijo, String m3incluidos, String preciom3, String porcentajeSobreOtroConcepto, String sobreQueConcepto, String iva) {
+    public OrdenanzaExcel(String pueblo, String tipoCalculo, int idOrdenanza, String concepto, String subconcepto, String descripcion, String acumulable, int precioFijo, int m3incluidos, double preciom3, double porcentajeSobreOtroConcepto, int sobreQueConcepto, double iva) {
         this.pueblo = pueblo;
         this.tipoCalculo = tipoCalculo;
         this.idOrdenanza = idOrdenanza;
@@ -60,11 +60,11 @@ public class OrdenanzaExcel {
         this.tipoCalculo = tipoCalculo;
     }
 
-    public String getIdOrdenanza() {
+    public int getIdOrdenanza() {
         return idOrdenanza;
     }
 
-    public void setIdOrdenanza(String idOrdenanza) {
+    public void setIdOrdenanza(int idOrdenanza) {
         this.idOrdenanza = idOrdenanza;
     }
 
@@ -100,51 +100,51 @@ public class OrdenanzaExcel {
         this.acumulable = acumulable;
     }
 
-    public String getPrecioFijo() {
+    public int getPrecioFijo() {
         return precioFijo;
     }
 
-    public void setPrecioFijo(String precioFijo) {
+    public void setPrecioFijo(int precioFijo) {
         this.precioFijo = precioFijo;
     }
 
-    public String getM3incluidos() {
+    public int getM3incluidos() {
         return m3incluidos;
     }
 
-    public void setM3incluidos(String m3incluidos) {
+    public void setM3incluidos(int m3incluidos) {
         this.m3incluidos = m3incluidos;
     }
 
-    public String getPreciom3() {
+    public double getPreciom3() {
         return preciom3;
     }
 
-    public void setPreciom3(String preciom3) {
+    public void setPreciom3(double preciom3) {
         this.preciom3 = preciom3;
     }
 
-    public String getPorcentajeSobreOtroConcepto() {
+    public double getPorcentajeSobreOtroConcepto() {
         return porcentajeSobreOtroConcepto;
     }
 
-    public void setPorcentajeSobreOtroConcepto(String porcentajeSobreOtroConcepto) {
+    public void setPorcentajeSobreOtroConcepto(double porcentajeSobreOtroConcepto) {
         this.porcentajeSobreOtroConcepto = porcentajeSobreOtroConcepto;
     }
 
-    public String getSobreQueConcepto() {
+    public int getSobreQueConcepto() {
         return sobreQueConcepto;
     }
 
-    public void setSobreQueConcepto(String sobreQueConcepto) {
+    public void setSobreQueConcepto(int sobreQueConcepto) {
         this.sobreQueConcepto = sobreQueConcepto;
     }
 
-    public String getIva() {
+    public double getIva() {
         return iva;
     }
 
-    public void setIva(String iva) {
+    public void setIva(double iva) {
         this.iva = iva;
     }
 
@@ -152,6 +152,6 @@ public class OrdenanzaExcel {
     public String toString() {
         return "OrdenanzaExcel{" + "pueblo=" + pueblo + ", tipoCalculo=" + tipoCalculo + ", idOrdenanza=" + idOrdenanza + ", concepto=" + concepto + ", subconcepto=" + subconcepto + ", descripcion=" + descripcion + ", acumulable=" + acumulable + ", precioFijo=" + precioFijo + ", m3incluidos=" + m3incluidos + ", preciom3=" + preciom3 + ", porcentajeSobreOtroConcepto=" + porcentajeSobreOtroConcepto + ", sobreQueConcepto=" + sobreQueConcepto + ", iva=" + iva + '}';
     }
-    
-    
+
+      
 }

@@ -16,7 +16,6 @@ import manager.ExcelManager;
 import manager.XmlManager;
 import modelo.LineasReciboModelo;
 import modeloExcel.ContribuyenteExcel;
-import modeloExcel.OrdenanzaExcel;
 
 /**
  *
@@ -66,8 +65,8 @@ public class PracticaTres {
                         double totalRecibo = baseImponible + ivaRecibo;
                         
                         int consumo = (int) funcionesRecibo.calcularTotalConsumo(lineasRecibo);
-                        int lecturaActual = (int) Double.parseDouble(c.getLecturaActual());
-                        int lecturaAnterior = (int) Double.parseDouble(c.getLecturaAnterior());
+                        int lecturaActual = c.getLecturaActual();
+                        int lecturaAnterior = c.getLecturaAnterior();
                         
                         // Comprobamos si el contribuyente esta exento de pagar el recibo
                         if(!c.getExencion().isEmpty()) {
