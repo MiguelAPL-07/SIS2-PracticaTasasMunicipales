@@ -131,6 +131,15 @@ public class FuncionesRecibo {
 
                 // Se actualiza el consumo calculado
                 consumo = consumo - consumoTramo;
+                
+                double importeBonificacion = 0;
+                // Se realiza las bonificaciones
+                if(bonificacion > 0) {
+                    if(baseImponible > 0) {
+                        importeBonificacion = baseImponible*bonificacion/100;
+                        baseImponible = baseImponible - importeBonificacion;
+                    }
+                }
 
                 // Se comprueba si tiene otro porcentaje sobre otro concepto
                 if(porcentajeSobreOtrosConceptos > 0) {
@@ -154,10 +163,7 @@ public class FuncionesRecibo {
                     baseImponible = t*porcentajeSobreOtrosConceptos/100;
                 }
 
-                // Se realiza las bonificaciones
-                if(bonificacion > 0) {
-                    baseImponible = baseImponible - baseImponible*bonificacion%100;
-                }
+                
 
                 // Realizar calculo del iva: base imponible x iva %
                 importeIva = baseImponible * iva / 100;
@@ -165,7 +171,7 @@ public class FuncionesRecibo {
                 // Agregar linea recibo
                 lineasRecibo.add(new LineasReciboModelo(concepto, 
                         o.getConcepto(), o.getSubconcepto(), consumoTramo, 
-                        baseImponible, o.getIva(), importeIva));
+                        baseImponible, o.getIva(), importeIva, bonificacion, importeBonificacion));
             }
         }
         return lineasRecibo;
