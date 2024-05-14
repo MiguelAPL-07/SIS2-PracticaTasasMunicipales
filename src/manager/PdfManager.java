@@ -26,6 +26,7 @@ import funcionesAuxiliares.Fecha;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.LineasReciboModelo;
@@ -47,17 +48,47 @@ public class PdfManager {
     // Carpeta donde se van a guardar todos los recibos 
     private File file;
     
+    // Sirve para dar formato de salida
+    private DecimalFormat decimalFormat;
+    
     
     public PdfManager() {
-
+        decimalFormat = new DecimalFormat("00.00");
     }
     
     public void crearPdfResumen() {
-        
+        try {
+            // Le pasamos la ruta generica donde se va a guardar el PDF
+            writer = new PdfWriter(Constantes.RUTA_GENERICA_RECIBO_PDF + "\\resumen.pdf");
+            // Asiganmos a pdfDoc el writer que podemos manipular
+            pdfDoc = new PdfDocument(writer);
+            // Inicializamos el docuemnto sobre el que guardamos todo
+            doc = new Document(pdfDoc, PageSize.LETTER);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.toString());
+        }
     }
     
-    public void generarPdfResumen() {
+    public void generarPdfResumen(double totalBaseImponible, double totalIva, double totalRecibos) {
+        // Se crea la tabla con un unico espacio
+        Table tabla = new Table(3);
+        // Se da tamaño a la tabla
+        tabla.setWidth(500);
+        // Se da borde a la tabla
+        tabla.setBorder(new SolidBorder(1));
         
+        Cell celda = new Cell();
+        celda.add(new Paragraph("RESUMEN PADRON DE AGUA Primer trimestre de 2023"));
+        celda.add(new Paragraph("TOTAL BASE IMPONIBLE.........................." + totalBaseImponible));
+        celda.add(new Paragraph("TOTAL IVA..................................... " + totalIva));
+        celda.add(new Paragraph("TOTAL RECIBOS................................." + totalRecibos));
+        
+        celda.setWidth(500);
+        celda.setBorder(Border.NO_BORDER);
+        tabla.addCell(celda);
+
+        
+        tabla.setHorizontalAlignment(HorizontalAlignment.CENTER);
     }
     
     public void crearPdf(String dni, String nombre, String apellido1, String apellido2) {
@@ -81,6 +112,8 @@ public class PdfManager {
         
         // Se agregan los datos de la empresa
         doc.add(agregarCabeceraDatosEmpresa(pueblo, contribuyente.getIban(), tipoCalculo, contribuyente.getFechaAlta()));
+        // Se agrega linea en blanco
+        doc.add(agregarEspacioEnBlanco(15));
         // Se agregan los datos del contribuyente
         doc.add(agregarCabeceraDatosContribuyente(contribuyente.getNombre(), contribuyente.getApellido1(), contribuyente.getApellido2(), contribuyente.getNifnie(), contribuyente.getDireccion(), contribuyente.getNumero(), pueblo));
         // Se agrega linea en blanco
@@ -212,7 +245,7 @@ public class PdfManager {
         celda2.setWidth(250);
         celda2.setTextAlignment(TextAlignment.RIGHT);
 
-        celda2.add(new Paragraph("Destinatario:"));
+        celda2.add(new Paragraph("Destinatario:").setTextAlignment(TextAlignment.LEFT).setBold());
         celda2.add(new Paragraph(nombre + " " + apellido1 + " " + apellido2));
         celda2.add(new Paragraph("DNI: " + dni));
         celda2.add(new Paragraph(direccion + " " + numero));
@@ -409,25 +442,25 @@ public class PdfManager {
             tabla.addCell(celda2);
 
             Cell celda3 = new Cell();
-            celda3.add(new Paragraph(String.format("%.2f", lActual.getM3incluidos())));
+            celda3.add(new Paragraph(decimalFormat.format(lActual.getM3incluidos())));
             celda3.setWidth(83);
             celda3.setBorder(Border.NO_BORDER);
             tabla.addCell(celda3);
 
             Cell celda4 = new Cell();
-            celda4.add(new Paragraph(String.format("%.2f", lActual.getBaseImponible())));
+            celda4.add(new Paragraph(decimalFormat.format(lActual.getBaseImponible())));
             celda4.setWidth(83);
             celda4.setBorder(Border.NO_BORDER);
             tabla.addCell(celda4);
 
             Cell celda5 = new Cell();
-            celda5.add(new Paragraph(String.format("%.2f", lActual.getPorcentajeIva())));
+            celda5.add(new Paragraph(decimalFormat.format(lActual.getPorcentajeIva()) + "%"));
             celda5.setWidth(83);
             celda5.setBorder(Border.NO_BORDER);
             tabla.addCell(celda5);
 
             Cell celda6 = new Cell();
-            celda6.add(new Paragraph(String.format("%.2f", lActual.getImporteIva())));
+            celda6.add(new Paragraph(decimalFormat.format(lActual.getImporteIva())));
             celda6.setWidth(85);
             celda6.setBorder(Border.NO_BORDER);
             tabla.addCell(celda6);
@@ -465,31 +498,31 @@ public class PdfManager {
             tabla.addCell(celda2);
 
             Cell celda3 = new Cell();
-            celda3.add(new Paragraph(String.format("%.2f", lActual.getM3incluidos())));
+            celda3.add(new Paragraph(decimalFormat.format(lActual.getM3incluidos())));
             celda3.setWidth(71);
             celda3.setBorder(Border.NO_BORDER);
             tabla.addCell(celda3);
 
             Cell celda4 = new Cell();
-            celda4.add(new Paragraph(String.format("%.2f", lActual.getBaseImponible())));
+            celda4.add(new Paragraph(decimalFormat.format(lActual.getBaseImponible())));
             celda4.setWidth(71);
             celda4.setBorder(Border.NO_BORDER);
             tabla.addCell(celda4);
 
             Cell celda5 = new Cell();
-            celda5.add(new Paragraph(String.format("%.2f", lActual.getPorcentajeIva())));
+            celda5.add(new Paragraph(decimalFormat.format(lActual.getPorcentajeIva()) + "%"));
             celda5.setWidth(71);
             celda5.setBorder(Border.NO_BORDER);
             tabla.addCell(celda5);
-
+            
             Cell celda6 = new Cell();
-            celda6.add(new Paragraph(String.format("%.2f", lActual.getImporteIva())));
+            celda6.add(new Paragraph(decimalFormat.format(lActual.getImporteIva())));
             celda6.setWidth(71);
             celda6.setBorder(Border.NO_BORDER);
             tabla.addCell(celda6);
             
             Cell celda7 = new Cell();
-            celda7.add(new Paragraph(String.format("%.2f", lActual.getBonificacion())));
+            celda7.add(new Paragraph(decimalFormat.format(lActual.getBonificacion())));
             celda7.setWidth(74);
             celda7.setBorder(Border.NO_BORDER);
             tabla.addCell(celda7);
@@ -519,14 +552,14 @@ public class PdfManager {
         tabla.addCell(celda1);
         
         Cell celda2 = new Cell();
-        celda2.add(new Paragraph(String.format("%.2f", totalBaseImponible)));
+        celda2.add(new Paragraph(decimalFormat.format(totalBaseImponible)));
         celda2.setWidth(83);
         celda2.setBorder(Border.NO_BORDER);
         celda2.setTextAlignment(TextAlignment.RIGHT);
         tabla.addCell(celda2);
         
         Cell celda3 = new Cell();
-        celda3.add(new Paragraph(String.format("%.2f", totalIva)));
+        celda3.add(new Paragraph(decimalFormat.format(totalIva)));
         celda3.setWidth(168);
         celda3.setBorder(Border.NO_BORDER);
         celda3.setTextAlignment(TextAlignment.RIGHT);
@@ -555,7 +588,7 @@ public class PdfManager {
         tabla.addCell(celda1);
         
         Cell celda2 = new Cell();
-        celda2.add(new Paragraph(String.format("%.2f", totalBaseImponible)));
+        celda2.add(new Paragraph(decimalFormat.format(totalBaseImponible)));
         celda2.setWidth(250);
         celda2.setBorder(Border.NO_BORDER);
         celda2.setTextAlignment(TextAlignment.RIGHT);
@@ -584,7 +617,7 @@ public class PdfManager {
         tabla.addCell(celda1);
         
         Cell celda2 = new Cell();
-        celda2.add(new Paragraph(String.format("%.2f", totalIva)));
+        celda2.add(new Paragraph(decimalFormat.format(totalIva)));
         celda2.setWidth(250);
         celda2.setBorder(Border.NO_BORDER);
         celda2.setTextAlignment(TextAlignment.RIGHT);
@@ -612,8 +645,10 @@ public class PdfManager {
         celda1.setTextAlignment(TextAlignment.LEFT);
         tabla.addCell(celda1);
         
+        
+        
         Cell celda2 = new Cell();
-        celda2.add(new Paragraph(String.format("%.2f", totalRecibo)));
+        celda2.add(new Paragraph(decimalFormat.format(totalRecibo)));
         celda2.setWidth(250);
         celda2.setBorder(Border.NO_BORDER);
         celda2.setTextAlignment(TextAlignment.RIGHT);
