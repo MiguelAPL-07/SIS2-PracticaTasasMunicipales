@@ -79,9 +79,9 @@ public class PdfManager {
         
         Cell celda = new Cell();
         celda.add(new Paragraph("RESUMEN PADRON DE AGUA Primer trimestre de 2023"));
-        celda.add(new Paragraph("TOTAL BASE IMPONIBLE.........................." + totalBaseImponible));
-        celda.add(new Paragraph("TOTAL IVA..................................... " + totalIva));
-        celda.add(new Paragraph("TOTAL RECIBOS................................." + totalRecibos));
+        celda.add(new Paragraph("TOTAL BASE IMPONIBLE.........................." + String.format("%.2f", totalBaseImponible)));
+        celda.add(new Paragraph("TOTAL IVA....................................." + String.format("%.2f", totalIva)));
+        celda.add(new Paragraph("TOTAL RECIBOS................................." + String.format("%.2f", totalRecibos)));
         
         celda.setWidth(500);
         celda.setBorder(Border.NO_BORDER);
@@ -89,6 +89,8 @@ public class PdfManager {
 
         
         tabla.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        doc.add(tabla);
+        doc.close();
     }
     
     public void crearPdf(String dni, String nombre, String apellido1, String apellido2) {
