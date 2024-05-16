@@ -120,12 +120,29 @@ public class FuncionesRecibo {
                     }
                 } else {
                     // Consumo por tramos acumulables
-                    if(precioFijo > 0) {
-                        baseImponible = precioFijo;
-                    }
-                    if(consumo <= m3incluidos) {
-                        baseImponible = baseImponible + consumo * preciom3;
-                        consumoTramo = consumo;
+                    
+                    // Comprobar si hay mas tramos acumulables para la misma ordenanza
+                    if(comprobarUltimoTramoAcumulable(concepto)) {
+                        if(precioFijo > 0) {
+                            baseImponible = precioFijo;
+                        }
+                        if(consumo <= m3incluidos) {
+                            consumoTramo = consumo;
+                        } else {
+                            consumoTramo = consumo;
+                            baseImponible = baseImponible + consumoTramo * preciom3;
+                        }
+                    } else {
+                        if(precioFijo > 0) {
+                            baseImponible = precioFijo;
+                        }
+                        // Los tramos acumulables, acumulan los m3 que incluye cada tramo 
+                        // pero se cobra todo el consumo en el tramo en el que sumado a los anteriores sea suficiente para combatir el consumo
+                        // Se calcula los m3 que incluyen todos los tramos anteriores mas el actual para saber si es suficiente para el consumo
+                        if(consumo <= calculaM3IncluidosAnterioresTramos(concepto, o.getSubconcepto())) {
+                            consumoTramo = consumo;
+                            baseImponible = baseImponible + consumoTramo * preciom3;
+                        }
                     }
                 }
 
@@ -199,6 +216,45 @@ public class FuncionesRecibo {
             total += (int) lineaActual.getM3incluidos();
         }
         return total;
+    }
+    
+    public boolean comprobarUltimoTramoAcumulable(int concepto) {
+        boolean r = false;
+        int numVeces = 0;
+        for(int j = 1; j <= excelManager.getUltimaFilaOrdenanzas(); j++) {
+            // Obtengo la ordenanza actual
+            OrdenanzaExcel o = (OrdenanzaExcel) ordenanzas.get(String.valueOf(j));
+            if(o.getIdOrdenanza() == concepto) {
+                numVeces ++;
+            }
+        }
+        // Si solo hay una ordenanza con ese concepto quiere decir que es el ultimo
+        if(numVeces == 1) {
+            r = true;
+        }
+        return r;
+    }
+    
+    // Calcula la suma de los m3 incluidos por cada tramo acumulable de los tramos anteriores
+    public int calculaM3IncluidosAnterioresTramos(int concepto, String subconcepto) {
+        int m3incluidos = 0;
+        boolean encontrado = false;
+        for(int j = 1; j <= excelManager.getUltimaFilaOrdenanzas(); j++) {
+            // Obtengo la ordenanza actual
+            OrdenanzaExcel o = (OrdenanzaExcel) ordenanzas.get(String.valueOf(j));
+            // Mientras no encuentre el subconcepto
+            if(!encontrado) {
+                // Compruebo si es el mismo concepto
+                if(o.getIdOrdenanza() == concepto) {
+                    // Agrego los m3 incluidos
+                    m3incluidos += o.getM3incluidos();
+                    if(o.getSubconcepto().equalsIgnoreCase(subconcepto)) {
+                        encontrado = true;
+                    }
+                }
+            }
+        }
+        return m3incluidos;
     }
     
     private boolean comprobarTodosConceptosCalculados(String conceptos, List<LineasReciboModelo> lineasReciboGeneradas) {
