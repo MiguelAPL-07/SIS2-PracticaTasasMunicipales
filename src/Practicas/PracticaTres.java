@@ -33,7 +33,7 @@ public class PracticaTres {
         contribuyentes = excelManager.obtenerContribuyentes();
     }
     
-    public void ejecuccion() {
+    public void ejecuccion(String fechaPadron) {
         
         FuncionDNI fDNI = new FuncionDNI();
         FuncionesRecibo funcionesRecibo = new FuncionesRecibo();
@@ -57,35 +57,40 @@ public class PracticaTres {
                     f = f.transformarFechaExcel(c.getFechaAlta());
                     // Verificamos si la fecha alta es anterior a la actual
                     if(!f.comprobarFechaPosteriorAFechaActual(f)) {
-                
-                        List<LineasReciboModelo> lineasRecibo = funcionesRecibo.generarLineasRecibo(c);
-
-                        double baseImponible = funcionesRecibo.calcularTotalBaseImponible(lineasRecibo);
-                        double ivaRecibo = funcionesRecibo.calcularTotalImporteIva(lineasRecibo);
-                        double totalRecibo = baseImponible + ivaRecibo;
                         
-                        int consumo = (int) funcionesRecibo.calcularTotalConsumo(lineasRecibo);
-                        int lecturaActual = c.getLecturaActual();
-                        int lecturaAnterior = c.getLecturaAnterior();
-                        
-                        // Comprobamos si el contribuyente esta exento de pagar el recibo
-                        if(!c.getExencion().isEmpty()) {
-                            if(c.getExencion().equalsIgnoreCase("S")) {
-                                totalRecibo = 0;
-                            }
-                        }   
+                        // Verifa si la fecha solicitada es posterior a la fecha alta
+                        if(f.compruebaFechaPosteriorFechaAlta(fechaPadron)) {
+                            List<LineasReciboModelo> lineasRecibo = funcionesRecibo.generarLineasRecibo(c);
 
-                        xmlManager.agregarNodoDocumentoRecibos(String.valueOf(idRecibo), c.getExencion(), 
-                                String.valueOf(i+1), c.getNombre(), c.getApellido1(), 
-                                c.getApellido2(), c.getNifnie(), c.getIban(), 
-                                String.valueOf(lecturaActual), String.valueOf(lecturaAnterior), String.valueOf(consumo), 
-                                String.valueOf(baseImponible), String.valueOf(ivaRecibo), 
-                                String.valueOf(totalRecibo));
+                            double baseImponible = funcionesRecibo.calcularTotalBaseImponible(lineasRecibo);
+                            double ivaRecibo = funcionesRecibo.calcularTotalImporteIva(lineasRecibo);
+                            double totalRecibo = baseImponible + ivaRecibo;
 
-                        // Actualizamos los totales
-                        totalBaseImponibleRecibos += baseImponible;
-                        totalIvaRecibos += ivaRecibo;
-                        idRecibo ++;
+                            int consumo = (int) funcionesRecibo.calcularTotalConsumo(lineasRecibo);
+                            int lecturaActual = c.getLecturaActual();
+                            int lecturaAnterior = c.getLecturaAnterior();
+
+                            // Comprobamos si el contribuyente esta exento de pagar el recibo
+                            if(!c.getExencion().isEmpty()) {
+                                if(c.getExencion().equalsIgnoreCase("S")) {
+                                    baseImponible = 0;
+                                    ivaRecibo = 0;
+                                    totalRecibo = 0;
+                                }
+                            }   
+
+                            xmlManager.agregarNodoDocumentoRecibos(String.valueOf(idRecibo), c.getExencion(), 
+                                    String.valueOf(i+1), c.getNombre(), c.getApellido1(), 
+                                    c.getApellido2(), c.getNifnie(), c.getIban(), 
+                                    String.valueOf(lecturaActual), String.valueOf(lecturaAnterior), String.valueOf(consumo), 
+                                    String.valueOf(baseImponible), String.valueOf(ivaRecibo), 
+                                    String.valueOf(totalRecibo));
+
+                            // Actualizamos los totales
+                            totalBaseImponibleRecibos += baseImponible;
+                            totalIvaRecibos += ivaRecibo;
+                            idRecibo ++;
+                        }
                     }
                 }
             }

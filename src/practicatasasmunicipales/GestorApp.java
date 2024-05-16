@@ -12,9 +12,11 @@ import Practicas.PracticaUno;
 
 /**
  *
- * @author PC
+ * @author Miguel Ángel
  */
 public class GestorApp {
+    
+    private String fechaPadron;
     
     public GestorApp() {
         
@@ -23,6 +25,9 @@ public class GestorApp {
     public void iniciarAplicacion() {
         //ejecucionPracticaUno();
         ejeccucionPracticaDos();
+        
+        fechaPadron = "1T 2023";
+        
         ejecucionPracticaTres();
         ejecucionPracticaCuatro();
     }
@@ -39,11 +44,11 @@ public class GestorApp {
     
     private void ejecucionPracticaTres() {
         PracticaTres p3 = new PracticaTres();
-        p3.ejecuccion();
+        p3.ejecuccion(fechaPadron);
     }
     
     private void ejecucionPracticaCuatro() {
         PracticaCuatro p4 = new PracticaCuatro();
-        p4.ejecuccion();
+        p4.ejecuccion(fechaPadron);
     }
 }

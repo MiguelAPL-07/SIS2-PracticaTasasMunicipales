@@ -34,20 +34,16 @@ public class PracticaCuatro {
     }
     
     
-    public void ejecuccion() {
+    public void ejecuccion(String fechaPadron) {
         
         FuncionDNI fDNI = new FuncionDNI();
         FuncionesRecibo funcionesRecibo = new FuncionesRecibo();
-        
         
         double totalBaseImponibleRecibos = 0;
         double totalIvaRecibos = 0;
         double totalRecibos = 0;
         
         int idRecibo = 1257;
-        
-        String fechaPadron = "1T 2023";
-        
         
         for(int i = 1; i <= excelManager.getUltimaFilaContribuyentes(); i++) {
             // Comprobar documento
