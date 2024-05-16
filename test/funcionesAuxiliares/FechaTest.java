@@ -31,4 +31,40 @@ public class FechaTest {
         f = new Fecha(21, 4, 2022);
         assertEquals(false, f.comprobarFechaPosteriorAFechaActual(f));
     }
+    
+    @Test
+    public void compruebaFechaPosteriorFechaAlta() {
+        // Fecha alta
+        fecha = new Fecha(01, 04, 2023);
+
+        assertEquals(false, fecha.compruebaFechaPosteriorFechaAlta("1T 2023"));
+        
+        assertEquals(true, fecha.compruebaFechaPosteriorFechaAlta("2T 2023"));
+        
+        assertEquals(true, fecha.compruebaFechaPosteriorFechaAlta("3T 2023"));
+        
+        assertEquals(true, fecha.compruebaFechaPosteriorFechaAlta("4T 2023"));
+        
+        fecha = new Fecha(10, 02, 2023);
+        
+        assertEquals(true, fecha.compruebaFechaPosteriorFechaAlta("1T 2023"));
+        
+        fecha = new Fecha(01, 01, 2024);
+        
+        assertEquals(true, fecha.compruebaFechaPosteriorFechaAlta("1T 2024"));
+    }
+    
+    @Test
+    public void generaFechaGeneracionRecibo() {
+        
+        assertEquals("Primer trimestre de 2023", fecha.generaFechaGeneracionRecibo("1T 2023"));
+        
+        assertEquals("Segundo trimestre de 2023", fecha.generaFechaGeneracionRecibo("2T 2023"));
+        
+        assertEquals("Tercer trimestre de 2023", fecha.generaFechaGeneracionRecibo("3T 2023"));
+        
+        assertEquals("Cuarto trimestre de 2023", fecha.generaFechaGeneracionRecibo("4T 2023"));
+        
+        assertEquals("Primer trimestre de 2024", fecha.generaFechaGeneracionRecibo("1T 2024"));
+    }
 }

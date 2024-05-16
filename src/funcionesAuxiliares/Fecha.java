@@ -27,6 +27,64 @@ public class Fecha {
         this.ano = ano;
     }
     
+    public boolean compruebaFechaPosteriorFechaAlta(String fechaPadron) {
+        boolean r = false;
+        // La primera parte corresponde con el trimestre y la segunda con el año
+        String[] fechaPadron_dividida = fechaPadron.split(" ");
+        
+        if(ano < Integer.parseInt(fechaPadron_dividida[1])) {
+            r = true;
+        } else {
+            if(ano == Integer.parseInt(fechaPadron_dividida[1])) {
+                switch(fechaPadron_dividida[0]) {
+                    case "1T":
+                        if(mes < 4) {
+                            r = true;
+                        }
+                        break;
+                    case "2T":
+                        if(mes < 7) {
+                            r = true;
+                        }
+                        break;
+                    case "3T":
+                        if(mes < 10) {
+                            r = true;
+                        }
+                        break;
+                    case "4T":
+                        r = true;
+                        break;
+                }
+            }
+        }
+        
+        return r;
+    }
+    
+    public String generaFechaGeneracionRecibo(String fechaPadron) {
+        String r = "";
+        
+        // La primera parte corresponde con el trimestre y la segunda con el año
+        String[] fechaPadron_dividida = fechaPadron.split(" ");
+        
+        switch(fechaPadron_dividida[0]) {
+            case "1T":
+                r = "Primer trimestre de " + fechaPadron_dividida[1];
+                break;
+            case "2T":
+                r = "Segundo trimestre de " + fechaPadron_dividida[1];
+                break;
+            case "3T":
+                r = "Tercer trimestre de " + fechaPadron_dividida[1];
+                break;
+            case "4T":
+                r = "Cuarto trimestre de " + fechaPadron_dividida[1];
+                break;
+        }
+        return r;
+    }
+    
     /**
      * Método que transforma la fecha de Excel en el formato dd-mm-aaaa
      * @param fecha Fecha de entrada en el formato dd-mes-aaaa
