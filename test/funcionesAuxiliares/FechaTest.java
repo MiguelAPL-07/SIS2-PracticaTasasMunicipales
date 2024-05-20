@@ -57,14 +57,14 @@ public class FechaTest {
     @Test
     public void generaFechaGeneracionRecibo() {
         
-        assertEquals("Primer trimestre de 2023", fecha.generaFechaGeneracionRecibo("1T 2023"));
+        assertEquals("Primer trimestre de 2023", fecha.transformaFechaPadronExtendida("1T 2023"));
         
-        assertEquals("Segundo trimestre de 2023", fecha.generaFechaGeneracionRecibo("2T 2023"));
+        assertEquals("Segundo trimestre de 2023", fecha.transformaFechaPadronExtendida("2T 2023"));
         
-        assertEquals("Tercer trimestre de 2023", fecha.generaFechaGeneracionRecibo("3T 2023"));
+        assertEquals("Tercer trimestre de 2023", fecha.transformaFechaPadronExtendida("3T 2023"));
         
-        assertEquals("Cuarto trimestre de 2023", fecha.generaFechaGeneracionRecibo("4T 2023"));
+        assertEquals("Cuarto trimestre de 2023", fecha.transformaFechaPadronExtendida("4T 2023"));
         
-        assertEquals("Primer trimestre de 2024", fecha.generaFechaGeneracionRecibo("1T 2024"));
+        assertEquals("Primer trimestre de 2024", fecha.transformaFechaPadronExtendida("1T 2024"));
     }
 }

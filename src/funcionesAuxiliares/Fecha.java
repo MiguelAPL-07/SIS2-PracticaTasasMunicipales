@@ -62,7 +62,7 @@ public class Fecha {
         return r;
     }
     
-    public String generaFechaGeneracionRecibo(String fechaPadron) {
+    public String transformaFechaPadronExtendida(String fechaPadron) {
         String r = "";
         
         // La primera parte corresponde con el trimestre y la segunda con el año
@@ -83,6 +83,47 @@ public class Fecha {
                 break;
         }
         return r;
+    }
+    
+    // dd-mm-aaaa
+    public Fecha transformarFechaPadronTeclado(String fechaPadron) {
+        Fecha f = new Fecha();
+        
+        // La primera parte corresponde con el trimestre y la segunda con el año
+        String[] fechaPadron_dividida = fechaPadron.split(" ");
+        
+        switch(fechaPadron_dividida[0]) {
+            case "1T":
+                f.setDia(31);
+                f.setMes(3);
+                f.setAno(Integer.valueOf(fechaPadron_dividida[1]));
+                break;
+            case "2T":
+                f.setDia(30);
+                f.setMes(6);
+                f.setAno(Integer.valueOf(fechaPadron_dividida[1]));
+                break;
+            case "3T":
+                f.setDia(30);
+                f.setMes(9);
+                f.setAno(Integer.valueOf(fechaPadron_dividida[1]));
+                break;
+            case "4T":
+                f.setDia(31);
+                f.setMes(12);
+                f.setAno(Integer.valueOf(fechaPadron_dividida[1]));
+                break;
+        }
+        return f;
+    }
+    
+    public Fecha obtenerFechaHoy() {
+        LocalDate fechaActual = LocalDate.now();
+        Fecha f = new Fecha();
+        f.setAno(fechaActual.getYear());
+        f.setMes(fechaActual.getMonthValue());
+        f.setDia(fechaActual.getDayOfMonth());
+        return f;
     }
     
     /**
