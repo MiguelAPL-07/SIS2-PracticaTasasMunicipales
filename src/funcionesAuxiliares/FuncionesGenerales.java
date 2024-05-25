@@ -71,4 +71,27 @@ public class FuncionesGenerales {
         return soloEspaciosBlanco;
     }
     
+    public boolean comprobarFechaPadronEntrada(String fechaPadron) {
+        boolean r = false;
+        String[] fSeparada = fechaPadron.trim().split(" ");
+        // Comprobamos primera parte tiene que ser [1, 2, 3, 4]T Ejemplo: 1T
+        try {
+            if(String.valueOf(fSeparada[0]).length() == 2){
+                if(String.valueOf(fSeparada[0].charAt(1)).equalsIgnoreCase("T")) {
+                    int i = Integer.parseInt(String.valueOf(fSeparada[0].charAt(0)));
+                    if(Integer.parseInt(String.valueOf(fSeparada[0].charAt(0))) > 0 && Integer.parseInt(String.valueOf(fSeparada[0].charAt(0))) < 5) {
+                        // Primera parte correcta
+                        // Comprobamos segunda parte tiene que ser un año de cuatro cifras  Ejemplo: 2023
+                        if(fSeparada[1].length() == 4) {
+                            Integer.valueOf(fSeparada[1]);
+                            r = true;
+                        }
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada de datos erronea " + e.getMessage());
+        }
+        return r;
+    }
 }

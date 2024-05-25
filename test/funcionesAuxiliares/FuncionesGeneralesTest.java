@@ -41,5 +41,22 @@ public class FuncionesGeneralesTest {
         assertEquals(false, fg.comprobarCadenaSoloLetras("A1"));
     }
 
+    @Test
+    public void test_comprobarFechaPadronEntrada() {
+        assertEquals(true, fg.comprobarFechaPadronEntrada("1T 2024"));
+        assertEquals(true, fg.comprobarFechaPadronEntrada("3T 2023"));
+        assertEquals(true, fg.comprobarFechaPadronEntrada("2T 2024"));
+        assertEquals(true, fg.comprobarFechaPadronEntrada("4T 2024"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("1 2022"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("T 2022"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("1tt"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("1237486437"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("1TT 2022"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("5T 2024"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("0T 2024"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("2T 202"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("2T 20222"));
+        assertEquals(false, fg.comprobarFechaPadronEntrada("5T 20212232"));
+    }
     
 }
