@@ -114,7 +114,7 @@ public class PracticaCuatro {
                                 // Crer PDF
                                 PdfManager pdf = new PdfManager();
 
-                                pdf.crearPdf(c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
+                                pdf.crearPdf(fechaPadron, c.getNifnie(), c.getNombre(), c.getApellido1(), c.getApellido2());
                                 pdf.generarPDF(c, lineasRecibo, consumo, o.getPueblo(), o.getTipoCalculo(), f.transformaFechaPadronExtendida(fechaPadron), totalBaseImponible, totalIva, totalRecibo);
 
                                 totalBaseImponibleRecibos += totalBaseImponible;
@@ -158,10 +158,12 @@ public class PracticaCuatro {
         sf.close();
         session.close();
         
+        Fecha f = new Fecha();
+        
         // Crear pdf resumen
         PdfManager pdf = new PdfManager();
-        pdf.crearPdfResumen();
-        pdf.generarPdfResumen(totalBaseImponibleRecibos, totalIvaRecibos, totalRecibos);
+        pdf.crearPdfResumen(fechaPadron);
+        pdf.generarPdfResumen(f.transformaFechaPadronExtendida(fechaPadron), totalBaseImponibleRecibos, totalIvaRecibos, totalRecibos);
     }
     
     public boolean insertarRelContribuyenteOrdenanzaBD(Contribuyente c, Ordenanza o) {
@@ -190,6 +192,7 @@ public class PracticaCuatro {
         lr.setSubconcepto(lineaRecibo.getSubconcepto());
         lr.setBaseImponible(lineaRecibo.getBaseImponible());
         lr.setPorcentajeIva(lineaRecibo.getPorcentajeIva());
+        lr.setImporteiva(lineaRecibo.getImporteIva());
         lr.setM3incluidos(lineaRecibo.getM3incluidos());
         lr.setBonificacion(lineaRecibo.getBonificacion());
         if(lineaRecibo.getImporteBonificacion() > 0) {

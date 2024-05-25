@@ -9,6 +9,10 @@ import Practicas.PracticaCuatro;
 import Practicas.PracticaDos;
 import Practicas.PracticaTres;
 import Practicas.PracticaUno;
+import funcionesAuxiliares.Constantes;
+import funcionesAuxiliares.FuncionesGenerales;
+import java.io.File;
+import java.util.Scanner;
 
 /**
  *
@@ -26,10 +30,30 @@ public class GestorApp {
         //ejecucionPracticaUno();
         ejeccucionPracticaDos();
         
-        fechaPadron = "1T 2023";
+        // Solicita por consola
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("INTRODUCE UNA FECHA PARA GENERAR RECIBOS CON FORMATO: [1-4]T [año con 4 dígitos] Ejemplo: 1T 2024");
+        fechaPadron = scanner.nextLine();
         
-        ejecucionPracticaTres();
-        ejecucionPracticaCuatro();
+        // Comprueba que es correcto
+        FuncionesGenerales f = new FuncionesGenerales();
+        if(f.comprobarFechaPadronEntrada(fechaPadron)) {
+            System.out.println("Fecha de padron introducida correctamente");
+            File directorios = new File(Constantes.RUTA_GENERICA_RECIBO_PDF + "\\" + fechaPadron);
+            if(!directorios.exists()) {
+                if(directorios.mkdir()) {
+                    System.out.println("Se ha creado la carpeta con fecha de generacion: " + fechaPadron);
+                    ejecucionPracticaTres();
+                    ejecucionPracticaCuatro();
+                } else {
+                    System.out.println("Error al crear directorios");
+                }
+            } else {
+                System.out.println("La fecha de generacion de recibos ya ha sido ejecutada");
+            }
+        } else {
+            System.out.println("Fecha de padron introducida incorrectamente");
+        }
     }
     
     private void ejecucionPracticaUno() {

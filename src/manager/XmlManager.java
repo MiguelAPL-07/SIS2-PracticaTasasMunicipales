@@ -312,12 +312,12 @@ public class XmlManager {
     }
     
     //Agregar boolean
-    public void generarDocumentoXmlRecibos() {
+    public void generarDocumentoXmlRecibos(String fechaPadron) {
         try {
             // Asocio el source con el Document
             Source source = new DOMSource(documentoRecibos);
 
-            File f = new File(Constantes.RUTA_ARCHIVO_ESCRIBIR_XML_RECIBOS);
+            File f = new File(Constantes.RUTA_ARCHIVO_ESCRIBIR_XML_RECIBOS + fechaPadron + ".xml");
             FileWriter fw = new FileWriter(f);
             PrintWriter pw = new PrintWriter(fw);
 

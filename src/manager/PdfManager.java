@@ -56,10 +56,10 @@ public class PdfManager {
         decimalFormat = new DecimalFormat("00.00");
     }
     
-    public void crearPdfResumen() {
+    public void crearPdfResumen(String fechaPadron) {
         try {
             // Le pasamos la ruta generica donde se va a guardar el PDF
-            writer = new PdfWriter(Constantes.RUTA_GENERICA_RECIBO_PDF + "\\resumen.pdf");
+            writer = new PdfWriter(Constantes.RUTA_GENERICA_RECIBO_PDF + "\\" + fechaPadron + "\\resumen.pdf");
             // Asiganmos a pdfDoc el writer que podemos manipular
             pdfDoc = new PdfDocument(writer);
             // Inicializamos el docuemnto sobre el que guardamos todo
@@ -69,8 +69,8 @@ public class PdfManager {
         }
     }
     
-    public void generarPdfResumen(double totalBaseImponible, double totalIva, double totalRecibos) {
-        // Se crea la tabla con un unico espacio
+    public void generarPdfResumen(String fechaRecibo, double totalBaseImponible, double totalIva, double totalRecibos) {
+        // Se crea la tabla con un tres espacios
         Table tabla = new Table(3);
         // Se da tamaño a la tabla
         tabla.setWidth(500);
@@ -78,7 +78,7 @@ public class PdfManager {
         tabla.setBorder(new SolidBorder(1));
         
         Cell celda = new Cell();
-        celda.add(new Paragraph("RESUMEN PADRON DE AGUA Primer trimestre de 2023"));
+        celda.add(new Paragraph("RESUMEN PADRON DE AGUA " + fechaRecibo));
         celda.add(new Paragraph("TOTAL BASE IMPONIBLE.........................." + String.format("%.2f", totalBaseImponible)));
         celda.add(new Paragraph("TOTAL IVA....................................." + String.format("%.2f", totalIva)));
         celda.add(new Paragraph("TOTAL RECIBOS................................." + String.format("%.2f", totalRecibos)));
@@ -93,10 +93,10 @@ public class PdfManager {
         doc.close();
     }
     
-    public void crearPdf(String dni, String nombre, String apellido1, String apellido2) {
+    public void crearPdf(String fechaPadron, String dni, String nombre, String apellido1, String apellido2) {
         try {
             // Le pasamos la ruta generica donde se va a guardar el PDF
-            writer = new PdfWriter(Constantes.RUTA_GENERICA_RECIBO_PDF + "\\" + dni + nombre + apellido1 + apellido2 + ".pdf");
+            writer = new PdfWriter(Constantes.RUTA_GENERICA_RECIBO_PDF + "\\" + fechaPadron + "\\" + dni + nombre + apellido1 + apellido2 + ".pdf");
             // Asiganmos a pdfDoc el writer que podemos manipular
             pdfDoc = new PdfDocument(writer);
             // Inicializamos el docuemnto sobre el que guardamos todo

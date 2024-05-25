@@ -99,11 +99,12 @@ public class PracticaTres {
         totalRecibos = totalBaseImponibleRecibos + totalIvaRecibos;
         
         // Actualizamos los atributos totales del xml
-        xmlManager.actualizarAtributosTotalesRecibos("1T de 2024", 
+        String[] fechaSeparada = fechaPadron.split(" ");
+        xmlManager.actualizarAtributosTotalesRecibos(fechaSeparada[0] + " de " + fechaSeparada[1], 
                 String.format("%.2f", totalBaseImponibleRecibos), 
                 String.format("%.2f", totalIvaRecibos), String.format("%.2f", totalRecibos));
         
         // Se genera el documento xml
-        xmlManager.generarDocumentoXmlRecibos();
+        xmlManager.generarDocumentoXmlRecibos(fechaPadron);
     }
 }

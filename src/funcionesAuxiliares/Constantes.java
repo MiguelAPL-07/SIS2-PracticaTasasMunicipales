@@ -30,7 +30,7 @@ public final class Constantes {
     public static final String RUTA_ARCHIVO_ESCRIBIR_XML_CCC = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\ErroresCCC.xml";
 
     // Ruta donde se va a guardar el archivo a escribir
-    public static final String RUTA_ARCHIVO_ESCRIBIR_XML_RECIBOS = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\Recibos.xml";
+    public static final String RUTA_ARCHIVO_ESCRIBIR_XML_RECIBOS = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\resources\\Recibos";
 
     // Ruta donde se obtiene la imagen genérica para todos los PDF's
     public final static String IMAGEN_GENERICA_PDF = "C:\\Users\\PC\\Desktop\\SIS 2 - Practica Final\\PracticaTasasMunicipales\\src\\img\\agua.png";
